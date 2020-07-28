@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 CSRF_USE_SESSIONS = True
 
 # Application definition
-
+###
 INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',

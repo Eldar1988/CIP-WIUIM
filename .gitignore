@@ -387,3 +387,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/django,windows,pycharm,pycharm+all,python
+HelloDjango/HelloDjango/settings.py
