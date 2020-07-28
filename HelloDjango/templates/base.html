@@ -98,7 +98,7 @@
                                             <li class="menu-item-has-children"><a href="{% url 'project_list' %}"><i class="icofont-pie-chart"></i> Проекты</a>
                                                 <ul class="sub-menu">
                                                     {% for project in projectstg %}
-                                                        <li><a href="{{ project.get_absolute_url }}"><i class="icofont-briefcase-1"></i> {{ project.title }}</a></li>
+                                                        <li><a href="{{ project.get_absolute_url }}"><i class="icofont-briefcase-1"></i> {{ project.name }}</a></li>
                                                     {% endfor %}
                                                 </ul>
                                             </li>
@@ -178,7 +178,7 @@
                                             <li class="menu-item-has-children"><a href="{% url 'project_list' %}"><i class="icofont-pie-chart"></i> Проекты</a>
                                                 <ul class="sub-menu">
                                                     {% for project in projectstg %}
-                                                        <li><a href="{{ project.get_absolute_url }}"><i class="icofont-briefcase-1"></i> {{ project.title }}</a></li>
+                                                        <li><a href="{{ project.get_absolute_url }}"><i class="icofont-briefcase-1"></i> {{ project.name }}</a></li>
                                                     {% endfor %}
                                                 </ul>
                                             </li>
