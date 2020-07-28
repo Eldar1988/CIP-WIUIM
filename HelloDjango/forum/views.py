@@ -83,7 +83,6 @@ class AddComment(View):
 
         if form.is_valid():
         #  Отправляем данные в телеграм
-
             url = f'{bot.url}' + 'sendMessage'
             chat_id = bot.chat_id
             name = request.POST.get('name')  # Поучаем имя пользователя, который оставил сообщение
