@@ -168,3 +168,5 @@ CKEDITOR_CONFIGS = {
 
 BOT_URL = 'https://api.telegram.org/bot1361537385:AAF-G3DLB4eHiP-FxDNFeYKt1FyKrf6s6nQ/'
 TG_CHAT_ID = -447661212
+
+SITE_ID = 1

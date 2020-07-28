@@ -51,7 +51,24 @@
                                     <p>{% autoescape off%} {{ project.description_second }} {% endautoescape %}</p>
                                 </div>
                             </div>
+                            <article class="post-box">
+                                <div class="post-inner forum-hero">
+                                    <div class="content-area ">
+                                        <article class="post-box blog-post p-t20 p-l10 p-b20 p-relative">
+                                            <a href="{{ project.presentation.url }}"> <i class="icofont-search-document icon-absloute"></i></i> </a>
+                                            <div class="row">
+                                            <h6 class="text-left">Презентация проекта в pdf формате</h6>
+                                                <div class="ot-button m-t30">
+                                                    <a href="{{ project.presentation.url }}" class="octf-btn octf-btn-primary octf-btn-icon" target="_blank"><span>Открыть презентацию<i class="icofont-search-2"></i></span></a>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                            </article>
                         </div>
+
+
 
                         <!-- Автор проекта -->
                         <aside class="widget-area primary-sidebar col-md-4">

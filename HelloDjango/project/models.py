@@ -8,6 +8,8 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from forum.models import Theme
 from user.models import Company
 
+from .functions import path_and_rename
+
 
 class Data(models.Model):
     """цифровые показатели"""
@@ -50,7 +52,7 @@ class Structure(models.Model):
     description = RichTextUploadingField('Полное описание')
     slug = models.SlugField('Slug', max_length=100, unique=True, help_text='Ссылка. Писать на латинице и без пробелов _')
     order = models.PositiveSmallIntegerField('Порядковый номер')
-    image = models.ImageField('Картинка', upload_to='files/project/')
+    image = models.ImageField('Картинка', upload_to=path_and_rename("projects/", 'structure'))
 
     def __str__(self):
         return self.title
@@ -100,6 +102,8 @@ class Project(models.Model):
                                          help_text='Будет отображаться в списке проектов')
     title = models.CharField('Заголовок проекта', max_length=200, help_text='Заголовок черного цвета')
     title_grey = models.CharField('Заголовок проекта серый', max_length=200, help_text='Заголовок серого цвета')
+    presentation = models.FileField('Презентация проекта в формате pdf',
+                                     upload_to=path_and_rename("projects/", 'presentation'), blank=True)
     body = models.TextField('Крaткое описание проекта', max_length=700,
                                          help_text='Будет отображаться в списке проектов')
     description_first_title = models.CharField('Описание 1 - Заголовок', max_length=30)
@@ -125,7 +129,7 @@ class Project(models.Model):
     draft = models.BooleanField('Опубликовать?', default=True)
     pub_date = models.DateTimeField('Дата публикации', default=datetime.now)
     show_count = models.PositiveSmallIntegerField('Количество просмотров', default=0)
-    image = models.ImageField('Картинка проекта', upload_to='files/project/',
+    image = models.ImageField('Картинка проекта', upload_to=path_and_rename("projects/", 'project'),
                               help_text='Будет отображаться в списке проектов')
 
     def __str__(self):
