@@ -39,6 +39,9 @@ body {
     100% {transform: rotateZ(360deg);}
 }
 
+.company-img {
+    max-width: 60%;
+}
 
 .stars-anim {
     position: absolute;

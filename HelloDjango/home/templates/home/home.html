@@ -18,7 +18,7 @@
             <div class="home8-top-right align-self-center my-first-text">
                 <div class="home8-top-right-block">
                     <h6>Приветствуем тебя,
-                        {%if user %}
+                        {%if user.is_authenticated  %}
                         {{ user.profile.name }}
                         {% else %}
                         дорогой гость
@@ -38,10 +38,10 @@
                 </div>
             </div>
 
-            <div class="home8-top-left my-first-img">
+            <div class="home8-top-left my-first-img text-center">
                 <div class="home8-top-left-img">
                     <img src="{% static 'assets/images/image.png' %}" data-src="{{ company.image.url }}" alt=""
-                        class="lazy">
+                        class="lazy company-img">
                 </div>
             </div>
 
