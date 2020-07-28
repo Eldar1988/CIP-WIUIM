@@ -1,0 +1,77 @@
+{% extends 'forum/base_forum.html' %}
+{% load static %}
+{% block title %}
+Форум | {{ block.super }}
+{% endblock %}
+{% block description %}
+Выберите интересную для вас тему и выразите свою точку зрения. Здесь также можно обсуждать проекты, которые размещены на
+нашем сайте
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header dtable text-center"
+    style="background-image: url({% static 'assets/images/bg-page-header.jpg' %});">
+    <div class="dcell">
+        <div class="container">
+            <h1 class="page-title">Форум</h1>
+            <ul id="breadcrumbs" class="breadcrumbs">
+                <li><a href="/">Главная</a></li>
+                <li class="active">Форум</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="forum-list">
+    <div class="container">
+        <div class="ot-heading left-align p-b35">
+            <h2 class="main-heading">Темы форума</h2>
+        </div>
+        <div class="content-area">
+            <div class="blog-list">
+                {% for theme in page %}
+                <article class="post-box" id="post-list-item">
+                    <div class="post-inner">
+                        <div class="entry-media">
+                            <div class="post-cat">
+                                <span class="posted-in forum-btn">
+                                    <a href="{{ theme.get_absolute_url }}" rel="category tag">Перейти к обсуждению</a>
+                                    {% for project in theme.project_set.all %}
+                                    <a href="{{ project.get_absolute_url }}" rel="category tag">О проекте</a>
+                                    {% endfor %}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="inner-post">
+                            <div class="entry-header">
+                                <h3 class="entry-title  mt-25"><a
+                                        href="{{ theme.get_absolute_url }}">{{ theme.title }}</a></h3>
+                            </div><!-- .entry-header -->
+                            <div class="entry-summary the-excerpt">
+                                <p>{{ theme.preview }}</p>
+                            </div><!-- .entry-content -->
+                            <div class="entry-meta mt-25">
+                                <span class="byline"><a class="url fn n"
+                                        href="{{ theme.author.profile.get_absolute_url }}"><i class="flaticon-user"></i>
+                                        Автор: {{ theme.author.profile.name }}</a></span>
+                                <span class="posted-on">
+                                    <i class="flaticon-clock"></i> <time
+                                        class="entry-date published">{{ theme.pub_date }}</time>
+                                </span>
+                                <span class="comment-num"><i class="flaticon-chat"></i> Сообщений:
+                                    {{ theme.comment_set.all.count }}</span>
+                            </div><!-- .entry-meta -->
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+
+            </div>
+            {% include 'includes/paginate.html' %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

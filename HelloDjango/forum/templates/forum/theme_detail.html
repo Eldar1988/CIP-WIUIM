@@ -1,0 +1,229 @@
+{% extends 'forum/base_forum.html' %}
+{% load static %}
+
+{% block title %}
+{{ theme.title }} | {{ block.super }}
+{% endblock %}
+
+{% block description %}
+{{ theme.preview }}
+{% endblock %}
+
+
+
+{% block content %}
+<!-- Заголовок и крошки -->
+<div class="page-header dtable text-center"
+    style="background-image: url({% static 'assets/images/bg-page-header.jpg' %});">
+    <div class="dcell">
+        <div class="container">
+            <h1 class="page-title">{{ theme.title }}</h1>
+            <ul id="breadcrumbs" class="breadcrumbs">
+                <li><a href="/">Главная</a></li>
+                <li><a href="{% url 'theme_list' %}">Форум</a></li>
+                <li class="active">{{ theme.title }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- // Заголовок и крошки // -->
+<div class="entry-content">
+    <div class="container">
+        <div class="row">
+            <!-- Автор и категории -->
+            <aside class="widget-area primary-sidebar col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="ot-accordions accordions-gradient">
+                    <div class="acc-item text-center">
+                        <span class="acc-toggle">Автор темы<i class="down flaticon-arrow-pointing-to-down"></i><i
+                                class="up flaticon-arrow-pointing-to-up"></i></span>
+                        <div class="acc-content">
+                            <div class="author-widget_image-wrapper">
+                                <img class="author-widget_image border-img" src="{{ theme.author.profile.avatar.url }}"
+                                    alt="{{ theme.author.profile.name }}">
+                            </div>
+                            <h5 class="author-widget_title color-white mt-25"><a
+                                    href="{{ theme.author.profile.get_absolute_url }}"> {{ theme.author.profile.name }}
+                                </a></h5>
+                            <p class="author-widget_text">{{ theme.author.profile.slogan }}</p>
+                            <div class="author-widget_social">
+                                {% if theme.author.profile.vk %}
+                                <a href="{{ theme.author.profile.vk }}" class="facebook" target="_blank"><i
+                                        class="fab fa-vk"></i></a>
+                                {% endif %}
+                                {% if theme.author.profile.fb %}
+                                <a href="{{ theme.author.profile.fb }}" class="facebook" target="_blank"><i
+                                        class="fab fa-facebook-f"></i></a>
+                                {% endif %}
+                                {% if theme.author.profile.instagram %}
+                                <a href="{{ theme.author.profile.instagram }}" class="instagram" target="_blank"><i
+                                        class="fab fa-instagram"></i></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="acc-item">
+                        <span class="acc-toggle">Другие темы форума<i
+                                class="down flaticon-arrow-pointing-to-down"></i><i
+                                class="up flaticon-arrow-pointing-to-up"></i></span>
+                        <div class="acc-content">
+                            <section class="widget widget_categories">
+                                <ul>
+                                    {% for theme in theme_list %}
+                                    <li><a href="{{ theme.get_absolute_url }}"
+                                            style="color: #fff;">{{ theme.title }}</a> <span
+                                            class="posts-count">({{ theme.comment_set.all.count }} <i
+                                                class="flaticon-chat"></i>)</span></li>
+                                    {% endfor %}
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </aside>
+
+            <!-- Тема -->
+            <article class="post-box col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <div class="post-inner forum-hero">
+                    <div class="content-area ">
+                        <article class="post-box blog-post">
+                            <div class="inner-post no-padding-top">
+                                <div class="entry-summary">
+                                    <h4>{{ theme.title }}</h4>
+                                    <p><span class="drop-cap"><span
+                                                class="drop-cap-letter">{{ body_first_word }}</span></span>{% autoescape off %}{{ body }}
+                                        {% endautoescape %}</p>
+                                </div>
+                            </div>
+                            {% for project in theme.project_set.all %}
+                            <a href="{{ project.get_absolute_url }}" class="octf-btn octf-btn-secondary">Подробнее о
+                                проекте</a>
+                            {% endfor %}
+
+                            <hr>
+                            <div class="entry-meta mt-25">
+                                <span class="byline"><a class="url fn n" href="#"><i
+                                            class="far fa-thumbs-up"></i>{{ theme.like }}</a></span>
+                                <!--                                            <span class="byline"><a class="url fn n" href="#"><i class="far fa-thumbs-down"></i>{{ theme.dislike }}</a></span>-->
+                                <span class="posted-on"><i class="flaticon-clock"></i><time
+                                        class="entry-date published">{{ theme.pub_date }}</time></span>
+                                <span class="comment-num"><i class="flaticon-chat"></i> Ответов:
+                                    {{ theme.comment_set.all.count }}</span>
+                            </div><!-- .entry-meta -->
+
+                        </article>
+                    </div>
+                </div>
+            </article>
+            <!-- // Тема // -->
+        </div>
+        <!-- Форма ответа -->
+        <div id="respond" class="comment-respond forum-form p-relative">
+            <i class="icofont-pen-alt-2 icon-absloute"></i>
+            <h5 id="reply-title" class="comment-reply-title pb-25">Ваше сообщение: </h5>
+            <form action="{% url 'add_comment' theme.id %}" method="post" class="comment-form">
+                {% csrf_token %}
+                <script type="text/javascript">
+                    let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                </script>
+                {{ form.answer_for }}
+                <div class="row">
+                    <p class="comment-form-author col-md-6">
+                        {{ form.name }}
+                        <span id="error-name" class="error-text"></span>
+                    </p>
+                    <p class="comment-form-email col-md-6">
+                        {{ form.email }}
+                        <span id="error-email" class="error-text"></span>
+                    </p>
+                </div>
+                <div class="pow">
+                    {{ form.text }}
+                    {{ form.media }}
+                    <span id="error-text-id" class="error-text"></span>
+                </div>
+                <p class="form-submit">
+                    <input name="submit" onclick="AjaxAddCommentForum('{{ theme.get_absolute_url }}')" id="submit"
+                        class="octf-btn octf-btn-secondary" value="Отправить">
+                </p>
+            </form>
+        </div>
+        <!-- // Форма ответа // -->
+
+        <div id="theme-comment-start"></div>
+        <span id="reload-forum" onclick="AjaxReload()"><i class="icofont-history"></i> Обновить ленту сообщений</span>
+        <br>
+        <div class="forum-answers-reload">
+            {% for comment in page %}
+            <!-- Ответ -->
+            <article class="post-box">
+                <div class="post-inner forum-hero">
+                    <div class="content-area ">
+                        <article class="post-box blog-post">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center">
+                                    <!--                                            <div class="author-widget_image-wrapper">-->
+                                    <!--                                                <img class="author-widget_image img-circle" src="images/avatar.png" alt="Kate Olson">-->
+                                    <!--                                            </div>-->
+                                    <h5 class="author-widget_title">{{ comment.name }}</h5>
+                                </div>
+                                <div class="inner-post no-padding-top col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                                    {% if comment.answer_for.name %}
+                                    <div class="answer">
+                                        Ответ для пользователя <b>{{ comment.answer_for.name }}:</b>
+                                        {% autoescape off %}<blockquote class="answer">{{ comment.answer_for.text }}
+                                        </blockquote>{% endautoescape %}
+                                    </div>
+                                    {% endif %}
+                                    <div class="entry-summary">
+                                        {% autoescape off%} {{ comment.text }} {% endautoescape %}
+                                    </div>
+                                </div>
+                                <div class="entry-meta forum-hero-bottom">
+                                    <span class="byline"><a class="url fn n" href="#respond"
+                                            onclick="addCommentForum('{{ comment.name }}', '{{ comment.id }}')"><i
+                                                class="far fa-comment-dots"></i> Ответить</a></span>
+                                    <span class="byline"><a class="url fn n" href="#"><i class="far fa-thumbs-up"></i>
+                                            {{ comment.like }}</a></span>
+                                    <!--                                        <span class="byline"><a class="url fn n" href="#"><i class="far fa-thumbs-down"></i> {{ comment.dislike }}</a></span>-->
+                                    <span class="posted-on"><i class="flaticon-clock"></i> <time
+                                            class="entry-date published">{{ comment.pub_date }}</time></span>
+                                    {% if request.user.is_staff %}
+                                    <a href="{% url 'del_comment_forum' comment.id %}" id="delComm"
+                                        style="display: none;"></a>
+                                    <buuton href="" onclick="AjaxDelForumComment('{{ comment.id }}')"
+                                        class="comment-reply-link scroll-to" style="margin-top: 25px; color: red;">
+                                        Удалить</buuton>
+                                    {% endif %}
+                                </div><!-- .entry-meta -->
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </article>
+            <!-- // Ответ // -->
+            {% endfor %}
+        </div>
+
+        <!-- Пагинация -->
+        {% include 'includes/paginate.html' %}
+        <!-- // Пагинация // -->
+    </div>
+</div>
+
+<script type="text/javascript" src="{% static 'assets/js/ajax/forum.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        funonload('{{ request.user.profile.name }}', '{{ request.user.email }}');
+    })
+    function funonload(name, email) {
+        document.getElementById("name").value = name;
+        document.getElementById("email").value = email;
+    }
+</script>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,265 @@
+{% extends 'blog/base_blog.html' %}
+{% load static %}
+
+{% block title %}
+{{ post.title }} | {{ block.super }}
+{% endblock %}
+
+{% block description %}
+{{ post.preview }}
+{% endblock %}
+
+{% block content %}
+<!-- Заголовок и мета -->
+<div class="single-page-header post-box" style="background-image: url('{{ post.image.url }}');">
+    <div class="single-bg-overlay"></div>
+    <div class="sing-page-header-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="post-cat">
+                        <span class="posted-in"> <a
+                                href="{{ post.category.get_absolute_url }}">{{ post.category }}</a></span>
+                    </div>
+                    <div class="entry-header">
+                        <h1 class="entry-title">{{ post.title }}</h1>
+                        <div class="entry-meta">
+                            <span class="byline"><a class="url fn n"
+                                    href="{{ post.author.profile.get_absolute_url }}"><i class="flaticon-user"></i>
+                                    {{ post.author.profile.name }}</a></span>
+                            <span class="posted-on" style="color: #fff;">
+                                <i class="flaticon-clock"></i><time class="entry-date">Опубликован:
+                                    {{ post.pub_date }}</time>
+                            </span>
+                            <span class="comment-num"><a href="#comment-ac" class="scroll-to"><i
+                                        class="flaticon-chat"></i> Комметарии: <span
+                                        class="comment-counter">{{ comments.count }}</span></a></span>
+                        </div><!-- .entry-meta -->
+                        <span id="post-rating" style="color: #fec80c; margin-top: 25px; font-size: 18px;"></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Заголовок и мета // -->
+<div class="entry-content m-b50">
+    <div class="container">
+        <div class="row">
+            <!-- Контент поста -->
+            <div class="content-area col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <article class="post-box blog-post">
+                    <div class="inner-post no-padding-top">
+                        <!-- Пост -->
+                        <div class="entry-summary">
+                            <p><span class="drop-cap"><span class="drop-cap-letter">{% autoescape off %}
+                                        {{ first_word }}</span></span></p>
+                            {{ body }}
+                            {% endautoescape %}
+                        </div>
+                        <!-- // Пост // -->
+                        <hr>
+                        <!-- Пред - След пост -->
+                        <div class="post-nav clearfix">
+                            {% if post.get_previous_by_pub_date %}
+                            <div class="post-prev"><a href="{{ post.get_previous_by_pub_date.get_absolute_url }}"
+                                    title="{{ post.get_previous_by_pub_date.title }}"><span
+                                        class="flaticon-arrow-pointing-to-left"></span>Пред</a></div>
+                            {% endif %}
+                            {% if post.get_next_by_pub_date %}
+                            <div class="post-next"><a href="{{ post.get_next_by_pub_date.get_absolute_url }}"
+                                    title="{{ post.get_next_by_pub_date.title }}">След<span
+                                        class="flaticon-arrow-pointing-to-right"></span></a></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+                <div class="m-t50">
+                    <div class="ot-accordions row container-fluid" id="comment-ac">
+                        <div class="acc-item current col-md-12 col-xs-12">
+                            <span class="acc-toggle"><b>ПОДЕЛИТЬСЯ С ДРУЗЬЯМИ</b><i
+                                    class="down flaticon-arrow-pointing-to-down"></i><i
+                                    class="up flaticon-arrow-pointing-to-up"></i></span>
+                            <div class="acc-content active" style="display: block;">
+                                <!-- Поделиться -->
+                                <div class="entry-footer clearfix">
+                                    <div class="">
+                                        <script src="https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+                                        <script src="https://yastatic.net/share2/share.js"></script>
+                                        <div class="ya-share2"
+                                            data-services="vkontakte,facebook,odnoklassniki,twitter,viber,whatsapp,skype,telegram"
+                                            data-limit="15"></div>
+                                    </div>
+                                </div>
+                                <!-- // Поделиться // -->
+                            </div>
+                        </div>
+                        <div class="acc-item col-md-12 col-xs-12" id="comment-block">
+                            <span class="acc-toggle"><b>КОММЕНТАРИИ (<span
+                                        class="comment-counter">{{ comments.count }}</span>)</b><i
+                                    class="down flaticon-arrow-pointing-to-down"></i><i
+                                    class="up flaticon-arrow-pointing-to-up"></i></span>
+                            <div class="acc-content">
+                                <div id="comments" class="comments-area">
+                                    <ol class="comment-list">
+                                        {% for comment in comments %}
+                                        <li id="comment-16" class="comment-item">
+                                            <article class="comment-wrap clearfix">
+                                                <div class="comment-content">
+                                                    <div class="comment-meta">
+                                                        <h6 class="comment-author">{{ comment.name }}</h6>
+                                                        <span class="comment-time">{{ comment.pub_date }}</span>
+                                                        <a rel="nofollow" class="comment-reply-link scroll-to"
+                                                            href="#commentform"
+                                                            onclick="addComment('{{ comment.name }}', '{{ comment.id }}')">Ответить</a>
+                                                        {% if request.user.is_staff %}
+                                                        <a href="{% url 'del_comment' comment.id %}" id="delComm"
+                                                            style="display: none;"></a>
+                                                        <buuton href="" onclick="AjaxDelComment('{{ comment.id }}')"
+                                                            class="comment-reply-link scroll-to"
+                                                            style="margin-top: 25px; color: red;">Удалить</buuton>
+                                                        {% endif %}
+                                                    </div>
+                                                    {% if comment.parent.name %}
+                                                    <div class="answer">
+                                                        Ответ для пользователя <b>{{ comment.parent.name }}:</b>
+                                                        {% autoescape off %}<blockquote class="answer">
+                                                            {{ comment.parent.text }}</blockquote>{% endautoescape %}
+                                                    </div>
+                                                    {% endif %}
+                                                    <div class="comment-text">
+                                                        <p>{% autoescape off %} {{ comment.text }} {% endautoescape %}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </li>
+                                        <hr>
+                                        {% endfor %}
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="commentform"></div>
+                    <div id="respond" class="comment-respond mt-110">
+                        <h6>Ваш комментарий:</h6>
+                        <form action="{% url 'add_review' post.id %}" method="post" class="comment-form">
+                            {% csrf_token %}
+                            <script type="text/javascript">
+                                let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                            </script>
+                            <div class="row">
+                                <input type="hidden" name="parent" id="parent" value="">
+                                <p class="comment-form-author col-md-6">
+                                    <input id="name" name="name" type="text" value="{{ user.profile.name }}" size="30"
+                                        placeholder="Ваше имя *" required="">
+                                    <span id="error-name" class="error-text"></span>
+                                </p>
+                                <p class="comment-form-email col-md-6">
+                                    <input id="email" name="email" type="text" value="{{ user.email }}" size="30"
+                                        placeholder="Email *" required="" class="form-control">
+                                    <span id="error-email" class="error-text"></span>
+                                </p>
+                            </div>
+                            <span id="error-text-id" class="error-text"></span>
+                            <p class="comment-form-comment">
+                                <textarea id="comment" name="text" cols="45" rows="4" placeholder="Комментарий *"
+                                    required=""></textarea>
+                            </p>
+
+                            <p class="form-submit">
+                                <input name="submit" onclick="AjaxAddComment()" type="" id="submit"
+                                    class="octf-btn octf-btn-secondary" value="Отправить">
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- // Контент поста // -->
+            <!-- Сайдбар -->
+            <aside class="widget-area primary-sidebar col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-mobile">
+                <!-- Автор поста -->
+                <section id="author_widget-2" class="widget onum_author-widget">
+                    <div class="author-widget_wrapper text-center">
+                        <p style="color: #fff;"><b>Автор:</b></p>
+                        <div class="author-widget_image-wrapper">
+                            <img class="author-widget_image border-img" src="{{ post.author.profile.avatar.url }}"
+                                alt="{{ post.author.profile.name }}">
+                        </div>
+                        <h5 class="author-widget_title"><a
+                                href="{{ post.author.profile.get_absolute_url }}">{{ post.author.profile.name }}</a>
+                        </h5>
+                        <p class="author-widget_text">{{ post.author.profile.slogan }}</p>
+                        <div class="author-widget_social">
+                            {% if post.author.profile.vk %}
+                            <a href="{{ post.author.profile.vk }}" class="facebook" target="_blank"><i
+                                    class="fab fa-vk"></i></a>
+                            {% endif %}
+                            {% if post.author.profile.fb %}
+                            <a href="{{ post.author.profile.fb }}" class="facebook" target="_blank"><i
+                                    class="fab fa-facebook-f"></i></a>
+                            {% endif %}
+                            {% if post.author.profile.instagram %}
+                            <a href="{{ post.author.profile.instagram }}" class="instagram" target="_blank"><i
+                                    class="fab fa-instagram"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </section>
+                <!-- // Автор поста // -->
+                <!-- Категории -->
+                <section class="widget widget_categories my-border blue-shadow">
+                    <h5 class="widget-title">Категории</h5>
+                    <ul>
+                        {% for cat in category %}
+                        <li><a href="{{ cat.get_absolute_url }}">{{ cat.title }}</a> <span
+                                class="posts-count">({{ cat.post_set.all.count }})</span></li>
+                        {% endfor %}
+                    </ul>
+                </section>
+                <!-- // Категории // -->
+                <!-- Рекомендации -->
+                <section class="widget widget_recent_news my-border blue-shadow">
+                    <h5 class="widget-title">Рекомендуем:</h5>
+                    <ul class="recent-news clearfix">
+                        {% for post in post_list %}
+                        <li class="clearfix">
+                            <div class="thumb">
+                                <a href="{{ post.get_absolute_url }}">
+                                    <img src="{{ post.miniature.url }}" width="70px" height="70px" class=""
+                                        alt="{{ post.title }}">
+                                </a>
+                            </div>
+                            <div class="entry-header">
+                                <h6><a href="{{ post.get_absolute_url }}"> {{ post.title}}</a></h6>
+                                <span class="post-on"><span class="entry-date">{{ post.pub_date }}</span></span>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+                <!-- // Рекомендации // -->
+            </aside>
+            <!-- // Сайдбар // -->
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{% static 'assets/js/ajax/post_detail.js' %}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Stars('{{ post.post_rating }}')
+    })
+    function Stars(rating) {
+        rating_star_none = '<i class=\"far fa-star\"></i>';
+        rating_star = '<i class="fas fa-star"></i>';
+        rating_none_value = 7 - rating
+        document.getElementById('post-rating').innerHTML = rating_star.repeat(rating) + rating_star_none.repeat(rating_none_value)
+        console.log(rating)
+    }
+</script>
+
+{% endblock %}

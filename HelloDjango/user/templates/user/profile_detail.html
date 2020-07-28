@@ -1,0 +1,97 @@
+{% extends 'user/base_user.html' %}
+{% load static %}
+{% block title %}
+{{ profile.name }} - {{ profile.professional}} | {{ block.super }}
+{% endblock %}
+{% block description %}
+{{ profile.bio }}
+{% endblock %}
+
+{% block content %}
+
+<section class="p-t90 particles-js" data-color="#fe4c1c,#00c3ff,#0160e7" data-id="a1">
+    <div class="container">
+        <div class="row flex-row">
+            <div class="col-md-4 col-xs-12 p-lr30 xs-p-lr15 align-self-center xs-m-b40">
+                <img src="{{ profile.avatar.url }}" alt="">
+            </div>
+            <div class="col-md-8 col-xs-12 p-l85 p-r70 xs-p-lr15 align-self-center">
+                <h6 class="steam-pos">{{ profile.professional }}</h6>
+                <h2 class="steam-name">{{ profile.name }}</h2>
+                <blockquote>{{ profile.slogan }}</blockquote>
+                <div class="steam-desc blue-shadow">
+
+                    {% autoescape off %} {{ profile.bio }} {% endautoescape %}
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="blue-shadow my-border p-relative">
+                            <i class="icofont-contacts icon-absloute"></i>
+                            <ul class="comp_contacts h-100">
+                                <h6>Контакты:</h6>
+
+                                {% if profile.main_phone %}
+                                <li><a href="tel:{{ profile.main_phone }}"><i class="fas fa-phone"></i>
+                                        {{ profile.main_phone }}</a></li>
+                                {% endif %}
+                                {% if profile.second_phone %}
+                                <li><a href="tel:{{ profile.second_phone }}"><i class="fas fa-phone"></i>
+                                        {{ profile.second_phone }}</a></li>
+                                {% endif %}
+                                {% if profile.whatsapp_phone %}
+                                <li><a href="https://wa.me/{{ profile.whatsapp_phone }}"><i class="fab fa-whatsapp"></i>
+                                        {{ profile.whatsapp_phone }}</a></li>
+                                {% endif %}
+                                {% if profile.mail %}
+                                <li><a href="mailto:{{ profile.mail }}"><i class="far fa-envelope"></i>
+                                        {{ profile.mail }}</a></li>
+                                {% endif %}
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="blue-shadow my-border p-relative">
+                            <i class="icofont-ui-home icon-absloute"></i>
+
+                            {% for company in profile.company_set.all %}
+                            <h6 class="steam-info">Компания:</h6>
+                            <h6 class="steam-info"><a href="{{ company.get_absolute_url }}">{{ company.name }}</a></h6>
+                            <p>{{ company.slogan }}</p>
+                            {% endfor %}
+
+                            <h6 class="steam-info"></h6>
+                            <p class="m-b30"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="steam-social">
+                    <h6>Я в социальных сетях:</h6>
+
+                    {% if profile.vk %}
+                    <a href="{{ profile.vk }}" class="facebook" target="_blank"><i class="fab fa-vk"></i></a>
+                    {% endif %}
+                    {% if profile.fb %}
+                    <a href="{{ profile.fb }}" class="facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    {% endif %}
+                    {% if profile.instagram %}
+                    <a href="{{ profile.instagram }}" class="instagram" target="_blank"><i
+                            class="fab fa-instagram"></i></a>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Share -->
+    <div class="p-t90 blog-grid-content">
+        <div class="container">
+            <hr>
+            {% include 'includes/share.html' %}
+        </div>
+    </div>
+    <!-- // Посты // -->
+</section>
+
+{% endblock %}

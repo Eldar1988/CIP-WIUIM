@@ -1,0 +1,11 @@
+<ul class="page-pagination text-center">
+                                <li><a class="next page-numbers" id="{%if not prev_url %}disabled{% endif %}" href="{{ prev_url }}"><i class="flaticon-arrow-pointing-to-left"></i></a></li>
+                                {% for n in page.paginator.page_range %}
+                                    {% if page.number == n %}
+                                        <li><span aria-current="page" class="page-numbers current">{{ n }}</span></li>
+                                    {% elif n > page.number|add:-3 and n < page.number|add:3 %}
+                                        <li><a class="page-numbers" href="?page={{ n }}">{{ n }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                <li><a class="next page-numbers" id="{%if not next_url %}disabled{% endif %}" href="{{ next_url }}"><i class="flaticon-arrow-pointing-to-right"></i></a></li>
+                            </ul>

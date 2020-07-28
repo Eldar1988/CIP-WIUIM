@@ -1,0 +1,110 @@
+{% extends 'project/project_base.html' %}
+{% load static %}
+
+{% block title %}
+Проекты | {{ block.super }}
+{% endblock %}
+
+
+
+{% block description %}
+    На данной странице список проектов компании CIP WIUIM. Выбирайте свой проект и начинайте инвестировать в будущее.
+{% endblock %}
+
+
+
+{% block content %}
+
+<!-- Заголовок - крошки -->
+<div class="page-header dtable text-center" style="background-image: url('{% static 'assets/images/bg-page-header.jpg' %}');">
+    <div class="dcell">
+        <div class="container">
+            <h1 class="page-title">Проекты</h1>
+            <ul id="breadcrumbs" class="breadcrumbs">
+                <li><a href="/">Главная</a></li>
+                <li class="active">Проекты</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- // Заголовок - крошки // -->
+
+
+
+<div class="entry-content m-b80">
+    <div class="container">
+
+        {% for project in projects %}
+        <!-- Проект -->
+        <div class="row project-list-item">
+            <div class="content-area col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <div class="blog-list">
+                    <article class="post-box">
+                        <div class="post-inner">
+                            <div class="entry-media">
+                                <a href="{{ project.get_absolute_url }}" title="Подробнее о проекте">
+                                    <img data-src="{{ project.image.url }}" src="{% static 'assets/images/image.png' %}" alt="" class="lazy">
+                                </a>
+                            </div>
+                            <div class="inner-post">
+                                <div class="entry-header" >
+                                    <h3 class="entry-title"><a href="{{ project.get_absolute_url }}" title="Подробнее о проекте">{{ project.name }}</a></h3>
+                                </div><!-- .entry-header -->
+                                <div class="entry-summary the-excerpt">
+                                    <p>{{ project.short_description }}</p>
+                                </div><!-- .entry-content -->
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <!-- Автор проекта -->
+            <aside class="widget-area primary-sidebar col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <section id="author_widget-2" class="widget onum_author-widget">
+                    <div class="author-widget_wrapper text-center">
+                        <div class="author-widget_image-wrapper">
+                            <p><strong style="color: #ffffff;">Автор проекта</strong></p>
+                            <img class="author-widget_image border-img" src="{{ project.company.logo.url }}"
+                                alt="">
+                        </div>
+                        <h5 class="author-widget_title"><a href="{{ project.company.get_absolute_url }}" title="Подробнее о компании"> {{ project.company.name }} </a></h5>
+                        <p class="author-widget_text">{{ project.company.slogan }}.</p>
+                        <div class="phone">
+                            <a href="tel:{{ project.company.main_phone }}"><i class="fas fa-phone"></i> {{ project.company.main_phone }}</a>
+                        </div>
+                        <br>
+                        <div class="author-widget_social">
+                            {% if project.company.vk %}
+                                <a href="{{ project.company.vk }}" class="facebook" target="_blank" ><i class="fab fa-vk"></i></a>
+                            {% endif %}
+                            {% if project.company.fb %}
+                                <a href="{{ project.company.fb }}" class="facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            {% endif %}
+                            {% if project.company.instagram %}
+                                <a href="{{ project.company.instagram }}" class="instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="ot-button m-t30">
+                        <a href="{{ project.get_absolute_url }}" class="octf-btn octf-btn-secondary octf-btn-icon btn-block"><span>Перейти к проекту
+                                <i class="flaticon-right-arrow-1"></i></span></a>
+                    </div>
+                    <div class="ot-button m-t30">
+                        <a href="{{ project.forum_theme.get_absolute_url }}" class="octf-btn octf-btn-secondary octf-btn-icon btn-block"><span>Обсудить на форуме
+                                <i class="flaticon-right-arrow-1"></i></span></a>
+                    </div>
+                </section>
+            </aside>
+            <!-- // Автор проекта // -->
+
+        </div>
+        <hr>
+        <!-- // Проект // -->
+        {% endfor %}
+
+        {% include 'includes/share.html' %}
+    </div>
+</div>
+{% include 'includes/partnership.html' %}
+{% endblock %}

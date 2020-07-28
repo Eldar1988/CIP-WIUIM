@@ -1,0 +1,143 @@
+{% extends 'home/base_home.html' %}
+{% load static %}
+
+{% block title %}
+    Правила пользования сайтом | {{ block.super }}
+{% endblock %}
+
+{% block description %}
+    На данной странице Вы найдете правила пользования нашим сайтом для всех типов пользователей
+{% endblock %}
+
+{% block content %}
+
+<!-- Заголовок - крошки -->
+<div class="page-header dtable text-center" style="background-image: url('{% static 'assets/images/bg-page-header.jpg' %}');">
+                <div class="dcell">
+                    <div class="container">
+                        <h1 class="page-title">Правила пользования</h1>
+                        <ul id="breadcrumbs" class="breadcrumbs">
+                            <li><a href="/">Главная</a></li>
+                            <li>Правила пользования сайтом CIP WIUIM</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+<!-- // Заголовок - крошки // -->
+
+<!-- Список Правил -->
+<div class="forum-list">
+                <div class="container">
+                    <div class="content-area">
+                        <div class="blog-list">
+                                <h3 class="entry-title p-b35">
+                                    Правила пользования для всех категорий<br>пользователей нашего сайта<br>
+                                </h3>
+                            <div class="post-box col-lg-9 col-md-9 col-sm-12 col-xs-12" id="post-list-item">
+
+                            {% for rule in rulestg %}
+
+                            <article class="" >
+                                <div class="post-inner">
+                                    <div class="inner-post">
+                                        <div class="entry-header p-relative">
+                                            <a href="{{ rule.get_absolute_url }}" rel="category tag"><i class="icofont-law-book icon-absloute"></i></a>
+                                            <h3 class="entry-title"><a href="{{ rule.get_absolute_url }}">{{ rule.title }}</a></h3>
+                                        </div><!-- .entry-header -->
+                                        <div class="entry-summary the-excerpt">
+                                            <div class="post-cat m-t20">
+                                                <span class="posted-in forum-btn">
+                                                    <a href="{{ rule.get_absolute_url }}" rel="category tag">Подробнее</a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div><!-- .entry-content -->
+                                </div>
+                            </article>
+                            </div>
+
+                            {% endfor %}
+
+                            </div>
+                            <aside class="widget-area primary-sidebar col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <div class="ot-accordions accordions-gradient mt-mobile">
+                                <div class="acc-item text-center">
+                                    <span class="acc-toggle">CIP WUIUM<i class="down flaticon-arrow-pointing-to-down"></i><i class="up flaticon-arrow-pointing-to-up"></i></span>
+                                    <div class="acc-content">
+                                          <section class="widget widget_categories">
+                                            <ul>
+                                                <p>{{ companytg.slogan }}</p>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="acc-item">
+                                    <span class="acc-toggle">Наши контакты<i class="down flaticon-arrow-pointing-to-down"></i><i class="up flaticon-arrow-pointing-to-up"></i></span>
+                                    <div class="acc-content">
+                                        <section class="widget widget_categories">
+                                            <ul>
+                                                <li>
+                                                    Телефон:<br>
+                                                    <strong><a href="tel:{{ companytg.number }}" style="color: #fff;">{{ companytg.number }}</a></strong>
+                                                </li>
+                                                <li>
+                                                    Email:<br>
+                                                    <strong><a href="mailto:{{ companytg.email }}" style="color: #fff;">{{ companytg.email }}</a></strong>
+                                                </li>
+                                                <li>
+                                                    Адрес:<br>
+                                                    <strong>{{ companytg.address }}</strong>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            {% include 'includes/share.html' %}
+                        </aside>
+                        </div>
+                    </div>
+                </div>
+    {% include 'includes/paginate.html' %}
+            </div>
+
+<!-- Форма -->
+<div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 text-center">
+                        <div class="search-engine-form">
+                            <div class="bg-overlay"></div>
+                            <div class="bg-overlay-img2"></div>
+                            <div class="title">
+                                <h2>Нужна консультация?</h2>
+                                <p class="project-form-p">Заполните форму и мы свяжемся с вами в течении 5 минут</p>
+                            </div>
+                            <div role="form" class="wpcf7">
+                                <form action="{% url 'add_contact' %}" method="POST" class="wpcf7-form">
+                                    {% csrf_token %}
+                                        <script type="text/javascript">
+                                            let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                                        </script>
+                                    <div class="seo-score one-line-form">
+                                        <span class="wpcf7-form-control-wrap your-url">
+                                            <input type="text" id="name" name="name" class="wpcf7-form-control wpcf7-text wpcf7-url" placeholder="Ваше имя *">
+                                        </span>
+                                        <span id="error-name" class="error-text"></span>
+
+                                        <span class="wpcf7-form-control-wrap your-email">
+                                            <input type="number" id="phone" name="phone" class="wpcf7-form-control wpcf7-text" placeholder="Номер телефона *">
+                                        </span>
+                                        <span id="error-phone" class="error-text"></span>
+
+                                        <div id="contact-submit" class="octf-btn octf-btn-icon octf-btn-primary" onclick="AjaxAddContact()">Отправить<i class="flaticon-right-arrow-1"></i></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!-- // Форма // -->
+
+{% endblock %}

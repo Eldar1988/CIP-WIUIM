@@ -1,0 +1,109 @@
+{% extends 'home/base_home.html' %}
+{% load static %}
+{% block title %}
+    Виды деятельности | {{ block.super }}
+{% endblock %}
+
+{% block content %}
+
+<!-- Заголовок - крошки -->
+<div class="page-header dtable text-center" style="background-image: url({% static 'assets/images/bg-page-header.jpg' %});">
+                <div class="dcell">
+                    <div class="container">
+                        <h1 class="page-title">Виды деятельности</h1>
+                        <ul id="breadcrumbs" class="breadcrumbs">
+                            <li><a href="/">Главная</a></li>
+                            <li class="active">Виды деятельности</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+<!-- Форма -->
+
+<!-- Список объектов -->
+<div class="forum-list ">
+                <div class="container">
+                    <div class="content-area">
+                        <div class="blog-list">
+                                <h3 class="entry-title p-b35">
+                                    Виды деятельности<br>
+                                    {% if regions.count > 1 %}
+                                        Все регионы
+                                    {% else %}
+                                        {% for region in regions %}
+                                            Регион - {{ region.title }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </h3>
+                            <div class="post-box col-lg-9 col-md-9 col-sm-12 col-xs-12" id="post-list-item">
+
+                            {% for map in page %}
+
+                            <article class="" >
+                                <div class="post-inner p-relative">
+                                    <a href="{{ map.get_absolute_url }}"><i class="icofont-presentation icon-absloute"></i></a>
+                                    <div class="inner-post">
+                                        <div class="entry-header">
+                                            <h3 class="entry-title"><a href="{{ map.get_absolute_url }}">{{ map.title }}</a></h3>
+                                        </div><!-- .entry-header -->
+                                        <div class="entry-summary the-excerpt">
+                                            <p>{% autoescape off%} {{ map.short_description }} {% endautoescape %}</p>
+                                             <div class="post-cat m-t20">
+                                                <span class="posted-in forum-btn">
+                                                    <a href="{{ map.get_absolute_url }}" rel="category tag">Подробнее</a>
+                                                </span>
+                                            </div>
+                                        </div><!-- .entry-content -->
+                                    </div>
+                                </div>
+                            </article>
+
+                            {% endfor %}
+
+                            </div>
+                            <aside class="widget-area primary-sidebar col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <div class="ot-accordions accordions-gradient">
+                                <div class="acc-item text-center">
+                                    <span class="acc-toggle">Выберите регион<i class="down flaticon-arrow-pointing-to-down"></i><i class="up flaticon-arrow-pointing-to-up"></i></span>
+                                    <div class="acc-content">
+                                          <section class="widget widget_categories">
+                                            <ul>
+                                                {% for region in all_regions %}
+                                                <li><a href="{% url 'map' region.id %}" style="color: #fff;">{{ region.title }}</a> <span class="posts-count">({{ region.map_set.all.count }} <i class="icofont-google-map"></i>)</span></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="acc-item">
+                                    <span class="acc-toggle">Наши контакты<i class="down flaticon-arrow-pointing-to-down"></i><i class="up flaticon-arrow-pointing-to-up"></i></span>
+                                    <div class="acc-content">
+                                        <section class="widget widget_categories">
+                                            <ul>
+                                                <li>
+                                                    Телефон:<br>
+                                                    <strong><a href="tel:{{ company.number }}" style="color: #fff;">{{ company.number }}</a></strong>
+                                                </li>
+                                                <li>
+                                                    Email:<br>
+                                                    <strong><a href="mailto:{{ company.email }}" style="color: #fff;">{{ company.email }}</a></strong>
+                                                </li>
+                                                <li>
+                                                    Адрес:<br>
+                                                    <strong>{{ company.address }}</strong>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            {% include 'includes/share.html' %}
+                        </aside>
+                        </div>
+                    </div>
+                </div>
+    {% include 'includes/paginate.html' %}
+            </div>
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends 'home/base_home.html' %}
+{% load static %}
+
+{% block title %}
+    Наши контакты | {{ block.super }}
+{% endblock %}
+
+
+
+{% block description %}
+    Здесь Вы найдете всю контактную информацию нашей компании
+{% endblock %}
+
+
+{% block content %}
+
+<!-- Заголовок - крошки -->
+<div class="page-header dtable text-center" style="background-image: url('{% static 'assets/images/bg-page-header.jpg' %}');">
+                <div class="dcell">
+                    <div class="container">
+                        <h1 class="page-title">Наши контакты</h1>
+                        <ul id="breadcrumbs" class="breadcrumbs">
+                            <li><a href="/">Главная</a></li>
+                            <li><a href="/projects">Контакты</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+<!-- // Заголовок - крошки // -->
+
+<!-- 1 Блок -->
+<section class="p-t100">
+                <div class="container">
+                    <div class="ot-heading left-align p-b35">
+                                <h2 class="main-heading">Свяжитесь с нами любым удобным для вас способом</h2>
+                            </div>
+                    <div class="row">
+                        <div class="align-self-center col-md-6">
+                            <div class="my-border blue-shadow p-relative">
+                                <i class="icofont-map-pins icon-absloute"></i>
+                                <p><strong>Наш адрес:</strong><br>
+                                    {{ company.address }}
+                                </p>
+                            </div>
+                            <div class="my-border blue-shadow m-t20 p-relative">
+                                <a href="tel:{{ company.number }}"><i class="icofont-phone-circle icon-absloute"></i></a>
+                                <p><strong>Номер телефона:</strong><br>
+                                    <a href="tel:{{ company.number }}">{{ company.number }}</a>
+                                </p>
+                            </div>
+                            <div class="my-border blue-shadow m-t20 p-relative">
+                                <a href="mailto:{{ company.email }}"><i class="icofont-email icon-absloute"></i></a>
+                                <p><strong>Наша почта:</strong><br>
+                                    <a href="mailto:{{ company.email }}">{{ company.email }}</a>
+                                </p>
+                            </div>
+                            <div class="my-border blue-shadow m-t20 p-relative">
+                                <p><strong>Мы в социальных сетях:</strong><br>
+                                    <i class="icofont-ui-social-link icon-absloute"></i>
+                                        {% for social in socials %}
+                                        <a href="{{ social.url }}" target="_blank">{% autoescape off %} {{ social.icon }} {% endautoescape %}</a>
+                                        {% endfor %}
+                                </p>
+                            </div>
+
+                        </div>
+                        <!-- Карта -->
+                        <aside class="widget-area primary-sidebar col-md-6">
+                            <div class="blue-shadow my-border">
+                                <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A7c4ebeab8bfba901c9ca839e68d95b4af3117ac2a2eec7d72748556a7120756b&amp;width=100%25&amp;height=400&amp;lang=ru_RU&amp;scroll=true"></script>
+                            </div>
+                        </aside>
+                        <!-- // Карта // -->
+                    </div>
+                </div>
+            </section>
+<!-- // 1 Блок // -->
+
+<!-- Форма -->
+<div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 text-center">
+                        <div class="search-engine-form">
+                            <div class="bg-overlay"></div>
+                            <div class="bg-overlay-img2"></div>
+                            <div class="title">
+                                <h2>Обратный звонок</h2>
+                                <p class="project-form-p">Заполните форму и мы свяжемся с вами в течении 5 минут</p>
+                            </div>
+                            <div role="form" class="wpcf7">
+                                <form action="{% url 'add_contact' %}" method="POST" class="wpcf7-form">
+                                    {% csrf_token %}
+                                        <script type="text/javascript">
+                                            let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                                        </script>
+                                    <div class="seo-score one-line-form">
+                                        <span class="wpcf7-form-control-wrap your-url">
+                                            <input type="text" id="name" name="name" class="wpcf7-form-control wpcf7-text wpcf7-url" placeholder="Ваше имя *">
+                                        </span>
+                                        <span id="error-name" class="error-text"></span>
+
+                                        <span class="wpcf7-form-control-wrap your-email">
+                                            <input type="number" id="phone" name="phone" class="wpcf7-form-control wpcf7-text" placeholder="Номер телефона *">
+                                        </span>
+                                        <span id="error-phone" class="error-text"></span>
+
+                                        <div id="contact-submit" class="octf-btn octf-btn-icon octf-btn-primary" onclick="AjaxAddContact()">Отправить<i class="flaticon-right-arrow-1"></i></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!-- // Форма // -->
+
+{% endblock %}

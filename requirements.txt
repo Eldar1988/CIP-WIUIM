@@ -1,0 +1,17 @@
+Package              Version
+-------------------- -------
+asgiref              3.2.7
+Django               3.0.7
+django-appconf       1.0.4
+django-ckeditor      5.9.0
+django-fontawesome   1.0
+django-fontawesome-5 1.0.18
+django-jquery        3.1.0
+django-js-asset      1.2.2
+django-select2       7.4.2
+Pillow               7.1.2
+pip                  20.1.1
+pytz                 2020.1
+PyYAML               5.3.1
+setuptools           47.1.1
+sqlparse             0.3.1

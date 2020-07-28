@@ -1,0 +1,463 @@
+{% extends 'project/project_base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ project.name }} | {{ block.super }}
+{% endblock %}
+
+
+
+{% block description %}
+    {{ project.short_description }}
+{% endblock %}
+
+
+
+{% block content %}
+<!-- Заголовок - крошки -->
+<div class="page-header dtable text-center" style="background-image: url('{% static 'assets/images/bg-page-header.jpg' %}');">
+                <div class="dcell">
+                    <div class="container">
+                        <h1 class="page-title">{{ project.name }}</h1>
+                        <ul id="breadcrumbs" class="breadcrumbs">
+                            <li><a href="/">Главная</a></li>
+                            <li><a href="/project">Проекты</a></li>
+                            <li class="active">{{ project.name }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+<!-- // Заголовок - крошки // -->
+
+<!-- 1 Блок -->
+<section class="p-t100 p-b100">
+                <div class="container">
+                    <div class="row">
+                        <div class="align-self-center col-md-8">
+                            <div class="ot-heading left-align">
+                                <h6><span>{{ project.title_grey }}</span></h6>
+                                <h2 class="main-heading">{{ project.title }}</h2>
+                            </div>
+
+                            <div class="ot-tabs">
+                                <ul class="tabs-heading unstyle">
+                                    <li class="tab-link octf-btn current" data-tab="tab-1454">{{ project.description_first_title }}</li>
+                                    <li class="tab-link octf-btn" data-tab="tab-2454">{{ project.description_second_title }}</li>
+                                </ul>
+                                <div id="tab-1454" class="tab-content current">
+                                    <p>{% autoescape off%} {{ project.description_first }} {% endautoescape %}</p>
+                                </div>
+                                <div id="tab-2454" class="tab-content">
+                                    <p>{% autoescape off%} {{ project.description_second }} {% endautoescape %}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Автор проекта -->
+                        <aside class="widget-area primary-sidebar col-md-4">
+                            <section id="author_widget-2" class="widget onum_author-widget">
+                                <div class="author-widget_wrapper text-center">
+                                    <p><strong style="color: #ffffff;">Автор проекта</strong></p>
+                                    <div class="author-widget_image-wrapper">
+                                        <img class="author-widget_image border-img" src="{{ project.company.logo.url }}" alt="{{ project.company.name }}">
+                                    </div>
+                                    <h5 class="author-widget_title"><a href="{{ project.company.get_absolute_url }}"> {{ project.company.name }} </a></h5>
+                                    <p class="author-widget_text">{{ project.company.slogan }}</p>
+                                    <div class="phone">
+                                        <a href="tel:{{ project.company.main_phone }}"><i class="fas fa-phone"></i> {{ project.company.main_phone }}</a>
+                                    </div>
+                                    <br>
+                                    <div class="author-widget_social">
+                                        {% if project.company.vk %}
+                                            <a href="{{ project.company.vk }}" class="facebook" target="_blank" ><i class="fab fa-vk"></i></a>
+                                        {% endif %}
+                                        {% if project.company.fb %}
+                                            <a href="{{ project.company.fb }}" class="facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                        {% endif %}
+                                        {% if project.company.instagram %}
+                                            <a href="{{ project.company.instagram }}" class="instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="ot-button m-t30">
+                                    <a href="{{ project.company.get_absolute_url }}" class="octf-btn octf-btn-secondary octf-btn-icon btn-block"><span>Подробнее о компании <i class="flaticon-right-arrow-1"></i></span></a>
+                                </div>
+                            </section>
+                        </aside>
+                        <!-- // Автор проекта // -->
+                    </div>
+                </div>
+            </section>
+            <!-- // 1 Блок // -->
+
+<!-- Видео презентация -->
+<section class="">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="services-video">
+                                <h3 style="color: #ffffff;">{{ project.video_title }}</h3>
+                                <div class="video-popup">
+                                    <div class="btn-inner">
+                                        <a class="btn-play" href="{{ project.video_url }}"><i class="fas fa-play"></i>
+                                            <span class="circle-1"></span>
+                                            <span class="circle-2"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- // Видео презентация // -->
+
+<!-- Преимущества -->
+            <div class="container-fluid">
+                <div class="row p-b50">
+                    <h3 class="text-center">Преференции</h3>
+                    {% for benefit in project.benefits.all|slice:':4' %}
+                    <div class="col-md-3 col-sm-6 col-xs-12 sm-m-b40 text-center mt-25">
+                        <div class="icon-box s3 box-hover-gradient">
+                            <div class="bg-s3"></div>
+                            <div class="bg-before"></div>
+                            <div class="bg-after"></div>
+                            <div class="icon-main">
+                                {% autoescape off %} {{ benefit.icon }} {% endautoescape %}
+                            </div>
+                            <div class="content-box">
+                                <h5>{{ benefit.title }}</h5>
+                                <p>{{ benefit.text }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="row p-b50">
+                    {% for benefit in project.benefits.all|slice:'4:8' %}
+                    <div class="col-md-3 col-sm-6 col-xs-12 sm-m-b40 text-center mt-25">
+                        <div class="icon-box s3 box-hover-gradient">
+                            <div class="bg-s3"></div>
+                            <div class="bg-before"></div>
+                            <div class="bg-after"></div>
+                            <div class="icon-main">
+                                {% autoescape off %} {{ benefit.icon }} {% endautoescape %}
+                            </div>
+                            <div class="content-box">
+                                <h5>{{ benefit.title }}</h5>
+                                <p>{{ benefit.text }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- // Преимущества // -->
+
+<!-- Прогресс бары -->
+            <section class="p-tb90 particles-js" data-color="#fe4c1c,#00c3ff,#0160e7" data-id="i2-1">
+                <div class="container">
+
+                    <div class="row p-b50">
+
+
+                        <div class="col-md-6 col-xs-12 sm-m-b40">
+
+                            {% for data in project.data.all|slice:':3' %}
+                            <div class="ot-progress m-b20">
+                                <div class="overflow">
+                                    <span class="pname fleft">{{ data.name }}</span>
+                                    <span class="ppercent fright">{{ data.number }}</span>
+                                </div>
+                                <div class="iprogress">
+                                    <div class="progress-bar" data-percent="{{ data.deta_int }}%"></div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+
+                        <div class="col-md-6 col-xs-12">
+                            {% for data in project.data.all|slice:'3:6' %}
+                            <div class="ot-progress m-b20">
+                                <div class="overflow">
+                                    <span class="pname fleft">{{ data.name }}</span>
+                                    <span class="ppercent fright">{{ data.number }}</span>
+                                </div>
+                                <div class="iprogress">
+                                    <div class="progress-bar s2" data-percent="{{ data.deta_int }}%"></div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        {% for data in project.data.all|slice:'6:9' %}
+                        <div class="col-md-3 col-sm-6 col-xs-12 sm-m-b40">
+                            <div class="circle-progress" data-color1="#ff403e" data-color2="#ff811b">
+                                <div class="inner-bar" data-percent="{{ data.deta_int }}">
+                                    <span><span class="percent">{{ data.number }}</span></span>
+                                </div>
+                                <h4>{{ data.name }}</h4>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% for data in project.data.all|slice:'9:12' %}
+                        <div class="col-md-3 col-sm-6 col-xs-12 xs-m-b40">
+                            <div class="circle-progress" data-color1="#0160e7" data-color2="#00c3ff">
+                                <div class="inner-bar" data-percent="66">
+                                    <span><span class="percent">66</span>%</span>
+                                </div>
+                                <h4>Показатель 9</h4>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </section>
+            <!-- // Прогресс бары // -->
+
+<!-- Полное описание -->
+            <div class="m-80">
+                <section class="z-index-1 p-lr-10">
+                    <div class="section-tab p-relative">
+                        <i class="icofont-site-map icon-absloute" style="color: #ffffff; font-size: 50px;"></i>
+                        <div class="container">
+                            <div class="flex-row align-items-end m-b20">
+                                <div class="col-md-8 col-sm-6 col-xs-12">
+                                    <div class="ot-heading text-light">
+                                        <h2 class="main-heading">Структура проекта "{{ project.title_grey }}"</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="tab-titles row">
+                                        {% for element in project.structure_element.all %}
+                                        <div>
+                                            <div class="col-md text-center">
+                                                <a class="title-item tab-active" href="#{{ element.slug }}" tabindex="0">
+                                                    <div class="icon-main">
+                                                        {% autoescape off %} {{ element.icon }} {% endautoescape %}
+                                                    </div>
+                                                    <h6>{{ element.short_title }}</h6>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="tab-slider-content" id="content-tabs">
+                    <div class="container">
+
+                        {% for element in project.structure_element.all %}
+                        <div class="flex-row section-content" id="{{ element.slug }}">
+                            <div class="col-md-6 col-sm-12 col-xs-12 align-self-center sm-m-b40">
+                                <div class="tab-slider-block my-border blue-shadow p-relative" style="background: #ffffff;">
+                                    <i class="icofont-pie-chart icon-absloute"></i>
+                                    <h2>{{ element.title }}</h2>
+                                    <p>{% autoescape off %} {{ element.short_description }} {% endautoescape %}</p>
+                                    <div class="ot-button">
+                                        <a href="{{ element.get_absolute_url }}" class="octf-btn octf-btn-secondary octf-btn-icon"><span>Подробнее <i class="flaticon-right-arrow-1"></i></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12 align-self-center mt-20-mobile">
+                                <div class="tab-slider-img">
+                                    <img src="{% static 'assets/images/image.png' %}" data-src="{{ element.image.url }}" alt="{{ element.title }}" class="lazy border-img">
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
+            <!-- // Полное описание // -->
+
+<!-- Вопросы и ответы -->
+            <section class="p-t90 p-b60">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12 sm-m-b40">
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="ot-heading">
+                                        <h3 class="title-default m-b50">Вопросы и ответы</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ot-accordions accordions-gradient">
+                                {% for question in project.questions.all %}
+                                <div class="acc-item ">
+                                    <span class="acc-toggle">{{ question.question }} <i class="down flaticon-arrow-pointing-to-down"></i><i class="up flaticon-arrow-pointing-to-up"></i></span>
+                                    <div class="acc-content ">
+                                        {{ question.answer }}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xs-12">
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="ot-heading mt-mobile">
+                                        <h3 class="title-default m-b50">Проект на форуме</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <article class="post-box">
+                                <div class="post-inner forum-hero">
+                                    <div class="content-area ">
+                                        <article class="post-box blog-post p-t90 p-relative">
+                                            <a href="{{ project.forum_theme.get_absolute_url }}"> <i class="icofont-ui-messaging icon-absloute"></i> </a>
+                                            <div class="row">
+                                                {% for comment in project.forum_theme.comment_set.all|slice:':3' %}
+                                                    <div class="inner-post no-padding-top m-t-20">
+                                                        <div class="entry-summary">
+                                                            {% autoescape off%} {{ comment.text }} {% endautoescape %}
+                                                            <span class="posted-on"><i class="flaticon-clock"></i> <time class="entry-date published">{{ comment.pub_date }}</time></span>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="ot-button">
+                                <a href="{{ project.forum_theme.get_absolute_url }}" class="octf-btn octf-btn-secondary octf-btn-icon btn-block"><span>Обсудить на форуме <i class="flaticon-right-arrow-1"></i></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- // Вопросы и ответы // -->
+
+<!-- Команда проекта -->
+<section class="home2-team">
+                <div class="container">
+                    <div class="p-b40">
+                        <div>
+                            <div class="ot-heading left-align">
+                                <h2 class="main-heading">Наша команда</h2>
+                            </div>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="row mt-25">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="team-slider">
+                                {% for cooperator in project.company.cooperator.all %}
+                                <div class="team-wrap">
+                                    <div class="team-thumb">
+                                        <a href="{{ cooperator.get_absolute_url }}" title="Подробнее" class="my-link">
+                                            <img src="{{ cooperator.avatar.url }}" alt="{{ cooperator.profile.name }}" width="150px" height="150px">
+                                        </a>
+                                    </div>
+                                    <div class="team-info">
+                                        <h4><a href="{{ cooperator.get_absolute_url }}" title="Подробнее" class="my-link">{{ cooperator.name }}</a></h4>
+                                        <span>{{ cooperator.professional }}<br>{{ cooperator.slogan }}</span>
+                                        <div class="team-social">
+                                            {% if cooperator.vk %}
+                                                <a href="{{ cooperator.vk }}" class="facebook" target="_blank" ><i class="fab fa-vk"></i></a>
+                                            {% endif %}
+                                            {% if cooperator.fb %}
+                                                <a href="{{ cooperator.fb }}" class="facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                            {% endif %}
+                                            {% if cooperator.instagram %}
+                                                <a href="{{ cooperator.instagram }}" class="instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                                            {% endif %}
+                                            <span class="flaticon-add-1"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+<!-- ///// -->
+
+<!-- Форма -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 text-center">
+                        <div class="search-engine-form">
+                            <div class="bg-overlay"></div>
+                            <div class="bg-overlay-img2"></div>
+                            <div class="title">
+                                <h2>Заинтересовал проект?</h2>
+                                <p class="project-form-p">Заполните форму и мы свяжемся с вами в течении 5 минут</p>
+                            </div>
+                            <div role="form" class="wpcf7">
+                                <form action="{% url 'add_contact' %}" method="POST" class="wpcf7-form">
+                                    {% csrf_token %}
+                                        <script type="text/javascript">
+                                            let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                                        </script>
+                                    <div class="seo-score one-line-form">
+                                        <span class="wpcf7-form-control-wrap your-url">
+                                            <input type="text" id="name" name="name" class="wpcf7-form-control wpcf7-text wpcf7-url" placeholder="Ваше имя *">
+                                        </span>
+                                        <span id="error-name" class="error-text"></span>
+
+                                        <span class="wpcf7-form-control-wrap your-email">
+                                            <input type="number" id="phone" name="phone" class="wpcf7-form-control wpcf7-text" placeholder="Номер телефона *">
+                                        </span>
+                                        <span id="error-phone" class="error-text"></span>
+
+                                        <div id="contact-submit" class="octf-btn octf-btn-icon octf-btn-primary" onclick="AjaxAddContact()">Отправить<i class="flaticon-right-arrow-1"></i></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- // Форма // -->
+
+<!-- Отзывы или команда -->
+            <section class="p-b90 bg-light pt-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="ot-heading">
+                                <h3 class="title-default m-b50">Отзывы и мнения о проекте {{ project.title_grey }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="ot-testimonials">
+                                <div class="slider__arrows"></div>
+                                <div class="testimonial-wrap">
+                                    <div class="testimonial-inner ot-testimonials-slider">
+                                        {% for review in project.reviews.all %}
+                                        <div>
+                                            <div class="ttext">
+                                                {{ review.text }}
+                                            </div>
+                                            <div class="tinfo">
+                                                <h6>{{ review.name }}</h6>
+                                                <span>{{ review.position }}</span>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="bg-block"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+{% endblock %}

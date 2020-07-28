@@ -1,0 +1,411 @@
+{% extends 'blog/base_blog.html' %}
+{% load static %}
+
+{% block title %}
+Главная | {{ block.super }}
+{% endblock %}
+
+{% block description %}
+{% endblock %}
+
+{% block content %}
+
+<!-- Первый блок -->
+<section class="home8-top particles-js" data-color="#fe4c1c,#00c3ff,#0160e7" data-id="i2">
+    <div class="bg-overlay"></div>
+    <div class="container-fluid">
+        <div class="flex-row m-r-lr0">
+            <div class="home8-top-right align-self-center my-first-text">
+                <div class="home8-top-right-block">
+                    <h6>Приветствуем тебя,
+                        {%if user %}
+                        {{ user.profile.name }}
+                        {% else %}
+                        дорогой гость
+                        {% endif %}
+                    </h6>
+                    <h2>{{ company.title }}</h2>
+                    <p>{{ company.slogan }}
+                    </p>
+                    <div class="d-flex sm-justify-content-center">
+                        <div class="ot-button align-self-center">
+                            <a href="{% url 'project_list' %}"
+                                class="octf-btn octf-btn-secondary octf-btn-icon"><span>Бизнес - проекты <i
+                                        class="flaticon-right-arrow-1"></i></span></a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="home8-top-left my-first-img">
+                <div class="home8-top-left-img">
+                    <img src="{% static 'assets/images/image.png' %}" data-src="{{ company.image.url }}" alt=""
+                        class="lazy">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- О нас - Преимущества -->
+<section class="p-t130 p-b130 xs-p-tb80 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-xs-12 p-b20">
+                <div class="ot-heading text-center">
+                    <h6><span>О сайте</span></h6>
+                    <h2 class="main-heading">На нашем сайте вы найдете</h2>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xs-12">
+                <div class="ot-heading left-align">
+                    <h6><span>О нас</span></h6>
+                    <h2 class="main-heading m-b15">{{ company.title }}</h2>
+                </div>
+                <p class="font-p2 m-b40">{{ company.slogan }}</p>
+                <div class="ot-button">
+                    <a href="{{ company.get_absolute_url }}"
+                        class="octf-btn octf-btn-secondary octf-btn-icon"><span>Узнать подробнее<i
+                                class="flaticon-right-arrow-1"></i></span></a>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <a href="{% url 'project_list' %}" style="color: #333;">
+                    <div class="icon-box s1 p-t40">
+                        <div class="bg-s3"></div>
+                        <div class="bg-before"></div>
+                        <div class="bg-after"></div>
+                        <div class="icon-main"><i class="icofont-handshake-deal"></i></div>
+                        <div class="content-box">
+                            <h5>Проекты</h5>
+                            <p>Proin ac lorem non quam tempor elementum id in justo. Aliquam convallis ante ex, eu
+                                commodo
+                                dolor consequat non.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="{% url 'post_list' 'all' %}" style="color: #333;">
+                    <div class="icon-box s1 p-t50">
+                        <div class="bg-s3"></div>
+                        <div class="bg-before"></div>
+                        <div class="bg-after"></div>
+                        <div class="icon-main"><i class="icofont-newspaper"></i></div>
+                        <div class="content-box">
+                            <h5>Информационный блог</h5>
+                            <p>Proin ac lorem non quam tempor elementum id in justo. Aliquam convallis ante ex, eu
+                                commodo
+                                dolor consequat non.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 col-xs-12">
+                <a href="{% url 'theme_list' %}" style="color: #333;">
+                    <div class="icon-box s1 p-t40">
+                        <div class="bg-s3"></div>
+                        <div class="bg-before"></div>
+                        <div class="bg-after"></div>
+                        <div class="icon-main"><i class="icofont-ui-text-loading"></i></div>
+                        <div class="content-box">
+                            <h5>Форум</h5>
+                            <p>Proin ac lorem non quam tempor elementum id in justo. Aliquam convallis ante ex, eu
+                                commodo
+                                dolor consequat non.</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="#" style="color: #333;">
+                    <div class="icon-box s1 p-t50">
+                        <div class="bg-s3"></div>
+                        <div class="bg-before"></div>
+                        <div class="bg-after"></div>
+                        <div class="icon-main"><i class="icofont-map"></i></div>
+                        <div class="content-box">
+                            <h5>Виды деятельности на карте</h5>
+                            <p>Proin ac lorem non quam tempor elementum id in justo. Aliquam convallis ante ex, eu
+                                commodo
+                                dolor consequat non.</p>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Проекты -->
+<section class="home2-team p-t130 mt-mobile">
+    <div class="container">
+        <div class="row p-b40">
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="ot-heading left-align">
+                    <h6><span>Проекты</span></h6>
+                    <h2 class="main-heading">Phasellus maximus lectus nunc</h2>
+                </div>
+                <p>Duis placerat feugiat vulputate. Vivamus eu sapien sed nibh accumsan sodales ut scelerisque velit.
+                    Vivamus non nunc faucibus, tincidunt erat ac, lacinia orci.</p>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12 xs-m-t30 text-right xs-text-left">
+                <div class="ot-button">
+                    <a href="{% url 'project_list' %}" class="octf-btn octf-btn-secondary octf-btn-icon"><span>Все
+                            проекты <i class="flaticon-right-arrow-1"></i></span></a>
+                </div>
+            </div>
+        </div>
+        <div class="row p-b80">
+            <div class="col-md-12 col-xs-12">
+                <div class="team-slider">
+
+                    {% for project in projectstg %}
+                    <div class="team-wrap">
+                        <div class="team-thumb">
+                            <a href="{{ project.get_absolute_url }}" title="Перейти к проекту" class="my-link">
+                                <img src="{% static 'assets/images/image.png' %}" data-src="{{ project.image.url }}"
+                                    alt="" class="lazy">
+                            </a>
+                        </div>
+                        <div class="team-info">
+                            <h4><a href="{{ project.get_absolute_url }}" title="Перейти к проекту"
+                                    class="my-link">{{ project.name }}</a></h4>
+                            <span>{{ project.short_description }}</span>
+                            <div class="team-social">
+                                <a class="twitter" target="_blank" href="{{ project.get_absolute_url }}"
+                                    title="Подробнее о проекте"><i class="fas fa-search"></i></a>
+                                <a class="twitter" target="_blank" href="{{ project.forum_theme.get_absolute_url }}"
+                                    title="Обсуждение на форуме"><i class="fas fa-bullhorn"></i></a>
+                                <span class="flaticon-add-1"></span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Форма -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-xs-12 text-center">
+            <div class="search-engine-form">
+                <div class="bg-overlay"></div>
+                <div class="bg-overlay-img2"></div>
+                <div class="title">
+                    <h2>Нужна конультация?</h2>
+                    <p class="project-form-p">Заполните форму и мы свяжемся с вами в течении 5 минут</p>
+                </div>
+                <div role="form" class="wpcf7">
+                    <form action="{% url 'add_contact' %}" method="POST" class="wpcf7-form">
+                        {% csrf_token %}
+                        <script type="text/javascript">
+                            let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                        </script>
+                        <div class="seo-score one-line-form">
+                            <span class="wpcf7-form-control-wrap your-url">
+                                <input type="text" id="name" name="name" class="wpcf7-form-control wpcf7-text wpcf7-url"
+                                    placeholder="Ваше имя *">
+                            </span>
+                            <span id="error-name" class="error-text"></span>
+
+                            <span class="wpcf7-form-control-wrap your-email">
+                                <input type="number" id="phone" name="phone" class="wpcf7-form-control wpcf7-text"
+                                    placeholder="Номер телефона *">
+                            </span>
+                            <span id="error-phone" class="error-text"></span>
+
+                            <div id="contact-submit" class="octf-btn octf-btn-icon octf-btn-primary"
+                                onclick="AjaxAddContact()">Отправить<i class="flaticon-right-arrow-1"></i></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Этапы работы -->
+<section class="home2-process particles-js" data-color="#fe4c1c,#00c3ff,#0160e7" data-id="i2-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 text-center m-b35">
+                <div class="ot-heading">
+                    <h6><span>Формы партнерства</span></h6>
+                    <h2 class="main-heading">Maecenas at pellentesque massa,<br> vulputate consectetur est.</h2>
+                </div>
+            </div>
+            <div class="col-md-12 col-xs-12 text-center">
+                <div class="ot-cprocess">
+
+                    {% for partner in partner_forms %}
+                    <div class="ot-cprocess-item clearfix repeater-item-{{ partner.order }}
+                                    {% if partner.order == 1 %} text-right {% elif partner.order == 2 %} text-center {% elif partner.order == 3 %} text-left
+                                    {% endif %}">
+
+                        <a href="{{ partner.get_absolute_url }}" title="Узнать подробнее">
+                            <div class="ot-cprocess-item-number font-second">0{{ partner.order }}</div>
+                        </a>
+                        <div class="ot-cprocess-item-inner">
+                            <div class="ot-cprocess-item-dot"></div>
+                            <a href="{{ partner.get_absolute_url }}" title="Узнать подробнее" class="default-hover">
+                                <div class="ot-cprocess-item-title font-second default-hover">{{ partner.title }}</div>
+                            </a>
+                            <div class="ot-cprocess-item-desc font-main">
+                                <p>{% autoescape off %} {{ partner.short_description }} {% endautoescape %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <div class="circle_logo">
+                        <img src="" alt="">
+                    </div>
+                    <svg class="ot-cprocess-circle-chart" height="500" width="500">
+                        <circle cx="250" cy="250" r="225" stroke="url(#gradient)" stroke-width="50" fill="none">
+                        </circle>
+                        <linearGradient id="gradient" gradientTransform="rotate(45)">
+                            <stop offset="0%" stop-color="#015be6"></stop>
+                            <stop offset="100%" stop-color="#03baee"></stop>
+                        </linearGradient>
+                    </svg>
+                </div>
+                <div class="services-content-marketing">
+                    {% for partner in partner_forms %}
+                    <div class="process-box">
+                        <a href="{{ partner.get_absolute_url }}" title="Узнать подробнее" class="default-hover">
+                            <div class="number-box">0{{ partner.order }}</div>
+                        </a>
+                        <div class="icon-main"></div>
+                        <div class="content-box">
+                            <a href="{{ partner.get_absolute_url }}" title="Узнать подробнее" class="default-hover">
+                                <h5>{{ partner.title }}</h5>
+                            </a>
+                            <p>{% autoescape off %} {{ partner.short_description }} {% endautoescape %}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Блог -->
+<section class="home2-news">
+    <div class="bg-overlay"></div>
+    <div class="container">
+        <div class="row m-b40">
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="ot-heading left-align">
+                    <h6><span>Блог или полезные статьи</span></h6>
+                    <h2 class="main-heading">Nullam malesuada elementum</h2>
+                </div>
+                <p>Nam molestie eros non lacus tempus consequat. In hac habitasse platea dictumst. Nulla a neque sit
+                    amet tortor bibendum molestie. Aenean leo lacus, vulputate at lacus egestas, finibus elementum arcu.
+                    Aliquam interdum nunc nisi, vel tempus risus elementum at. In nec lacinia lorem.</p>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12 text-right m-t15 xs-text-left">
+                <div class="ot-button">
+                    <a href="{% url 'post_list' 'all' %}" class="octf-btn octf-btn-primary octf-btn-icon"><span>Все
+                            статьи <i class="flaticon-right-arrow-1"></i></span></a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="pf_3_cols">
+                    <div class="posts-slider">
+                        <!-- Запись -->
+                        {% for post in posts %}
+                        <article class="col-md-4 col-sm-6 col-xs-12 post-box masonry-post-item">
+                            <div class="post-inner">
+                                <div class="entry-media">
+                                    <div class="post-cat">
+                                        <span class="posted-in">
+                                            <a href="{{ post.category.get_absolute_url }}"
+                                                rel="category tag">{{ post.category.title }}</a>
+                                        </span>
+                                    </div>
+                                    <a href="{{ post.get_absolute_url }}">
+                                        <img src="{% static 'assets/images/image.png' %}"
+                                            data-src="{{ post.miniature.url }}" alt="" class="lazy" width="100%">
+                                    </a>
+                                </div>
+                                <div class="inner-post">
+                                    <div class="entry-header">
+
+                                        <div class="entry-meta">
+                                            <span class="byline"><a class="url fn n"
+                                                    href="{{ post.author.profile.get_absolute_url }}"><i
+                                                        class="flaticon-user"></i>
+                                                    {{ post.author.profile.name }}</a></span>
+                                            <span class="posted-on">
+                                                <i class="flaticon-clock"></i> <time
+                                                    class="entry-date published">{{ post.pub_date }}</time>
+                                            </span>
+                                        </div><!-- .entry-meta -->
+
+                                        <h5 class="entry-title"><a
+                                                href="{{ post.get_absolute_url }}">{{ post.title }}</a></h5>
+                                    </div><!-- .entry-header -->
+
+                                    <div class="entry-summary the-excerpt">
+                                        <p>{{ post.preview }}...</p>
+                                    </div><!-- .entry-content -->
+                                </div>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Отзывы или команда -->
+<section class="p-b90 bg-light pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <div class="ot-heading">
+                    <h3 class="title-default m-b50">Отзывы и мнения о нашей компании</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="ot-testimonials">
+                    <div class="slider__arrows"></div>
+                    <div class="testimonial-wrap">
+                        <div class="testimonial-inner ot-testimonials-slider">
+                            {% for review in reviews %}
+                            <div>
+                                <div class="ttext">
+                                    {{ review.text }}
+                                </div>
+                                <div class="tinfo">
+                                    <h6>{{ review.name }}</h6>
+                                    <span>{{ review.position }}</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="bg-block"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

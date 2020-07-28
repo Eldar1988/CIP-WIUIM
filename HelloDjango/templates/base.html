@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+{% load static %}
+{% load home_tags %}
+{% get_company as companytg %}
+{% get_social as socials %}
+{% get_map as maps %}
+{% get_projects as projectstg %}
+{% get_posts as poststg %}
+{% get_themes as themestg %}
+{% get_rules as rulestg %}
+{% get_partners as partnerstg %}
+{% get_partner_forms as partner_formstg %}
+
+
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>{% block title %} CIP WIUIM {% endblock %}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="description" content="{% block description %}{% endblock %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon.png ' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/font-awesome.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/flaticon.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/slick-theme.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/my-style.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/icofont.min.css' %}" />
+
+    <!-- Google Font - Open Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+
+<body class="royal_preloader">
+    <div id="page" class="site">
+        <!-- Header -->
+        <header id="site-header" class="site-header header-style-2 header-fullwidth">
+            <div class="header-topbar">
+                <div class="octf-area-wrap">
+                    <div class="container-fluid">
+                        <!-- Header Topbar Menus -->
+                        <div class="topbar_menu">
+                            <ul id="menu-topbar-menu" class="menu clearfix">
+                                <li><a href="{% url 'about_us' %}">О компании</a></li>
+                                <li><a href="{% url 'faq' %}">Вопросы и ответы</a></li>
+                            </ul>
+                        </div>
+                        <!-- social icons -->
+                        <ul class="social-list">
+                            {% for social in socials %}
+                            <li><a href="{{ social.url }}" target="_blank">{% autoescape off %} {{ social.icon }} {% endautoescape %}</a></li>
+                            {% endfor %}
+                        </ul>
+                        <!-- social icons close -->
+                        <!-- contact info -->
+                        <ul class="topbar-info clearfix">
+                            <a href="tel:{{ companytg.number }}"><li><i class="fas fa-phone"></i> {{ companytg.number }}</li></a>
+                            <li><i class="flaticon-placeholder"></i> {{ companytg.address }}</li>
+                            <a href="mailto:{{ companytg.email }}"><li><i class="flaticon-envelope"></i> {{ companytg.email }}</li></a>
+                        </ul>
+                        <!-- contact info close -->
+                    </div>
+                </div>
+            </div>
+            <!-- Main Header start -->
+            <div class="octf-main-header">
+                <div class="octf-area-wrap">
+                    <div class="container-fluid octf-mainbar-container">
+                        <div class="octf-mainbar">
+                            <div class="octf-mainbar-row octf-row">
+                                <!-- logo start -->
+                                <div class="octf-col">
+                                    <div id="site-logo" class="site-logo">
+                                        <a href="/">
+                                            <div id="logo">
+                                                <div id="logo-img">
+                                                    <div id="logo-text">CIP<br>WIUIM</div>
+                                                    <img src="{% static 'assets/images/stars1.png' %}" alt="" id="logo-self">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- logo start -->
+                                <!-- nav start -->
+                                <div class="octf-col">
+                                    <nav id="site-navigation" class="main-navigation">
+                                        <ul id="primary-menu" class="menu">
+                                            <li class=""><a href="/" ><i class="icofont-home"></i> Главная</a>
+                                            </li>
+                                            <li class="menu-item-has-children"><a href="{% url 'project_list' %}"><i class="icofont-pie-chart"></i> Проекты</a>
+                                                <ul class="sub-menu">
+                                                    {% for project in projectstg %}
+                                                        <li><a href="{{ project.get_absolute_url }}"><i class="icofont-briefcase-1"></i> {{ project.title }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children"><a href="{% url 'post_list' slug='all' %}"><i class="icofont-newspaper"></i> Блог</a>
+                                                <ul class="sub-menu">
+                                                    {% for post in poststg %}
+                                                        <li><a href="{{ post.get_absolute_url }}"><i class="icofont-page"></i> {{ post.title }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children"><a href="{% url 'theme_list' %}"><i class="icofont-ui-messaging"></i> Форум</a>
+                                                <ul class="sub-menu">
+                                                    {% for theme in themestg %}
+                                                        <li><a href="{{ theme.get_absolute_url }}"><i class="icofont-megaphone-alt"></i> {{ theme.title }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children"><a href="#"><i class="icofont-search-2"></i> Информация</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="{% url 'about_us' %}"><i class="icofont-search-stock"></i> О нас</a></li>
+                                                    <li><a href="{% url 'map' 0 %}" ><i class="icofont-search-map"></i> Виды деятельности</a>
+                                                    <li class="menu-item-has-children"><a href="{% url 'rules_all' %}" ><i class="icofont-law-alt-3"></i> Правила сайта</a>
+                                                        <ul class="sub-menu">
+                                                            {% for rule in rulestg %}
+                                                                <li><a href="{{ rule.get_absolute_url }}"><i class="icofont-law-document"></i> {{ rule.title }}</a></li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </li>
+
+                                                    <li ><a href="{% url 'faq' %}"><i class="icofont-question"></i> Вопросы и ответы</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class=""><a href="{% url 'contacts' %}"><i class="icofont-google-map"></i> Контакты</a>
+                                            </li>
+                                        </ul>
+                                    </nav><!-- #site-navigation -->
+                                </div>
+                                <div class="octf-col text-right">
+                                <!-- Call To Action -->
+                                    <div class="octf-btn-cta">
+                                        <div class="octf-header-module">
+                                            <div class="btn-cta-group btn-cta-header">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Header mobile -->
+            <div class="header_mobile">
+                <div class="container">
+                    <div class="mlogo_wrapper clearfix">
+                        <!-- logo mobile start -->
+                        <a href="/">
+                            <div id="logo">
+                                <div id="logo-img">
+                                    <div id="logo-text">CIP<br>WIUIM</div>
+                                    <img src="{% static 'assets/images/stars1.png' %}" alt="" id="logo-self">
+                                </div>
+                            </div>
+                        </a>
+                        <!-- logo mobile end -->
+                        <div id="mmenu_toggle">
+                            <button></button>
+                        </div>
+                    </div>
+                    <!-- nav mobile start -->
+                    <div class="mmenu_wrapper">
+                        <div class="mobile_nav">
+                            <ul id="menu-main-menu" class="mobile_mainmenu">
+                                <li class=""><a href="/" ><i class="icofont-home"></i> Главная</a>
+                                            </li>
+                                            <li class="menu-item-has-children"><a href="{% url 'project_list' %}"><i class="icofont-pie-chart"></i> Проекты</a>
+                                                <ul class="sub-menu">
+                                                    {% for project in projectstg %}
+                                                        <li><a href="{{ project.get_absolute_url }}"><i class="icofont-briefcase-1"></i> {{ project.title }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children"><a href="{% url 'post_list' slug='all' %}"><i class="icofont-newspaper"></i> Блог</a>
+                                                <ul class="sub-menu">
+                                                    {% for post in poststg %}
+                                                        <li><a href="{{ post.get_absolute_url }}"><i class="icofont-page"></i> {{ post.title }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children"><a href="{% url 'theme_list' %}"><i class="icofont-ui-messaging"></i> Форум</a>
+                                                <ul class="sub-menu">
+                                                    {% for theme in themestg %}
+                                                        <li><a href="{{ theme.get_absolute_url }}"><i class="icofont-megaphone-alt"></i> {{ theme.title }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children"><a href="#"><i class="icofont-search-2"></i> Информация</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="{% url 'about_us' %}"><i class="icofont-search-stock"></i> О нас</a></li>
+                                                    <li><a href="{% url 'map' 0 %}" ><i class="icofont-search-map"></i> Виды деятельности</a>
+                                                    <li class="menu-item-has-children"><a href="{% url 'rules_all' %}" ><i class="icofont-law-alt-3"></i> Правила сайта</a>
+                                                        <ul class="sub-menu">
+                                                            {% for rule in rulestg %}
+                                                                <li><a href="{{ rule.get_absolute_url }}"><i class="icofont-law-document"></i> {{ rule.title }}</a></li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </li>
+
+                                                    <li ><a href="{% url 'faq' %}"><i class="icofont-question"></i> Вопросы и ответы</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class=""><a href="{% url 'contacts' %}"><i class="icofont-google-map"></i> Контакты</a>
+                                            </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- nav mobile end -->
+                </div>
+            </div>
+        </header>
+        <!-- Content -->
+        <main id="swup" class="transition-fade">
+        <div id="content" class="site-content" style="transition:2s; opacity: 0; filter: blur(50px);">
+            {% block content %}
+            {% endblock %}
+        </div>
+        </main>
+        <!--Yandex Map-->
+        <section id="yandex_map">
+            <div class="container">
+                <div class="ot-heading left-align partner-header">
+                    <h2 class="main-heading">Виды деятельности на карте</h2>
+                    <p>Советуем приблизить карту в интересующем вас регионе, чтобы увидеть больше объектов видов деятельности.</p>
+                    <div class="ot-button align-self-center">
+                        <a href="{% url 'map' 0 %}" class="octf-btn octf-btn-secondary octf-btn-icon">
+                            <span>Подробнее <i class="flaticon-right-arrow-1"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <div id="YMapsID" class="blue-shadow m-t50"></div>
+            </div>
+        </section>
+        <!-- Партнеры -->
+        <section class="p-b80 particles-js" data-color="#fe4c1c,#00c3ff,#0160e7" data-id="i2">
+                <div class="container">
+                    <div class="ot-heading left-align partner-header">
+                        <h2 class="main-heading">Наши партнеры</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="partners">
+                                <div class="owl-carousel home-client-carousel">
+                                    {% for partner in partnerstg %}
+                                        <div class="partners-slide my-partner">
+                                            <a href="{{ partner.url }}" class="client-logo" target="_blank">
+                                                <figure class="partners-slide-inner">
+                                                    <img class="partners-slide-image" src="{{ partner.logo.url }}" alt="">
+                                                </figure>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+         <!-- Footer -->
+        <footer id="site-footer-home2" class="site-footer-home2 site-footer-2">
+            <div class="main-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="footer-widget">
+                                <h5>Проекты</h5>
+                                <ul class="ft-menu-list">
+                                    {% for project in projectstg %}
+                                        <li class="ft-menu-item">
+                                            <a href="{{ project.get_absolute_url }}">
+                                                - {{ project.name }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="footer-widget">
+                                <h5>Быстрые ссылки</h5>
+                                <ul class="ft-menu-list">
+                                    <li class="ft-menu-item">
+                                        <a href="/">- Главная</a>
+                                    </li>
+                                    <li class="ft-menu-item">
+                                        <a href="{% url 'about_us' %}">- О нас</a>
+                                    </li>
+                                    <li class="ft-menu-item">
+                                        <a href="{% url 'theme_list' %}">- Форум</a>
+                                    </li>
+                                    <li class="ft-menu-item">
+                                        <a href="{% url 'map' 0 %}">- Виды деятельности</a>
+                                    </li>
+                                    <li class="ft-menu-item">
+                                        <a href="{% url 'rules_all' %}">- Правила сайта</a>
+                                    </li>
+                                    <li class="ft-menu-item">
+                                        <a href="{% url 'faq' %}">- Вопросы и ответы</a>
+                                    </li>
+                                    <li class="ft-menu-item">
+                                        <a href="{% url 'contacts' %}">- Контакты</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="footer-widget">
+                                <h5>Информационный блог</h5>
+                                <ul class="ft-menu-list">
+                                    {% for post in poststg %}
+                                        <li class="ft-menu-item">
+                                            <a href="{{ post.get_absolute_url }}">
+                                                - {{ post.title }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="footer-widget">
+                                <h5>Мы в соц сетях</h5>
+                                <ul class="ft-menu-list my-footer-social">
+                                    {% for social in socials %}
+                                        <li>
+                                            <a href="{{ social.url }}" target="_blank">
+                                                {% autoescape off %} {{ social.icon }} {% endautoescape %}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                <p>
+                                    Подписывайтесь на наши новости. Никакого спама, только полезная и важная информация.
+                                </p>
+                                <form action="{% url 'add_contact' %}" class="mc4wp-form" method="POST" data-name="Subscribe Form Footer">
+
+                                    {% csrf_token %}
+                                    <script type="text/javascript">
+                                        let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                                    </script>
+
+                                    <div class="mc4wp-form-fields">
+                                        <div class="subscribe-inner-form">
+                                            <input type="email" name="email" id="email-sub" placeholder="Ваш Email" required="">
+                                            <span id="error-email" class="error-text"></span>
+                                            <span class="subscribe-btn-icon" onclick="AjaxAddSubscribe()">
+                                                <i class="flaticon-send"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12 xs-text-center">
+<!--                            ВИДЖЕТ-->
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <p class="copyright-2 text-right">CIP WIUIM © 2020 Все права защищены.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <a id="back-to-top" href="#" class="show"><i class="flaticon-arrow-pointing-to-up"></i></a>
+    <!-- jQuery -->
+            <script type="text/javascript" src="{% static 'assets/js/jquery.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'assets/js/ajax/theme_detail.js' %}"></script>
+            <script type="text/javascript" src="{% static 'assets/js/main.js' %}"></script>
+            <script type="text/javascript" src="{% static 'assets/js/slick.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'assets/js/jquery.isotope.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'assets/js/easypiechart.js' %}"></script>
+            <script type="text/javascript" src="{% static 'assets/js/particles.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'assets/js/jquery.countdown.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'assets/js/scripts.js' %}"></script>
+            <script type="text/javascript" src="{% static 'assets/js/header-mobile.js' %}"></script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!--            Yandex Map Generator-->
+            <script src="https://api-maps.yandex.ru/2.1/?apikey=ae25808c-a59e-43ec-82cb-8be150a4042b&lang=ru_RU" type="text/javascript"></script>
+            <script type="text/javascript" src="{% static 'assets/js/map/map_generator.js' %}"></script>
+
+            <script>
+              $(document).ready(function() {
+                $("#content").css("opacity", "1");
+                $("#content").css("filter", "blur(0)");
+              });
+            </script>
+            {% autoescape off %} {{ companytg.consultant_code }} {% endautoescape %}
+</body>
+</html>

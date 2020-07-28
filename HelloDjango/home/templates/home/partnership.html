@@ -1,0 +1,130 @@
+{% extends 'home/base_home.html' %}
+{% load static %}
+
+{% block title %}
+    {{ p_form.title }} | {{ block.super }}
+{% endblock %}
+
+
+
+{% block description %}
+    {{ p_form.short_description }}
+{% endblock %}
+
+
+{% block content %}
+
+<!-- Заголовок - крошки -->
+            <div class="page-header dtable text-center" style="background-image: url('{% static 'assets/images/bg-page-header.jpg' %}');">
+                <div class="dcell">
+                    <div class="container">
+                        <h1 class="page-title">{{ structure.title }}</h1>
+                        <ul id="breadcrumbs" class="breadcrumbs">
+                            <li><a href="/">Главная</a></li>
+                            <li class="active">{{ p_form.title }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- // Заголовок - крошки // -->
+
+<!-- 1 Блок -->
+            <section class="p-t80">
+                <div class="container">
+                    <div class="row">
+                        <div class="align-self-center">
+                            <div class="ot-heading text-center">
+                                <h2 class="main-heading p-b50">{{ p_form.title }}</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="my-border blue-shadow">
+                                {% autoescape off%} {{ p_form.description }} {% endautoescape %}
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="z-index: 100000;">
+                            {% include 'includes/share.html' %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- // 1 Блок // -->
+
+<!-- Форма -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 text-center">
+                        <div class="search-engine-form">
+                            <div class="bg-overlay"></div>
+                            <div class="bg-overlay-img2"></div>
+                            <div class="title">
+                                <h2>Остались вопросы?</h2>
+                                <p class="project-form-p">Заполните форму и мы свяжемся с вами в течении 5 минут</p>
+                            </div>
+                            <div role="form" class="wpcf7">
+                                <form action="{% url 'add_contact' %}" method="POST" class="wpcf7-form">
+                                    {% csrf_token %}
+                                        <script type="text/javascript">
+                                            let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                                        </script>
+                                    <div class="seo-score one-line-form">
+                                        <span class="wpcf7-form-control-wrap your-url">
+                                            <input type="text" id="name" name="name" class="wpcf7-form-control wpcf7-text wpcf7-url" placeholder="Ваше имя *">
+                                        </span>
+                                        <span id="error-name" class="error-text"></span>
+
+                                        <span class="wpcf7-form-control-wrap your-email">
+                                            <input type="number" id="phone" name="phone" class="wpcf7-form-control wpcf7-text" placeholder="Номер телефона *">
+                                        </span>
+                                        <span id="error-phone" class="error-text"></span>
+
+                                        <div id="contact-submit" class="octf-btn octf-btn-icon octf-btn-primary" onclick="AjaxAddContact()">Отправить<i class="flaticon-right-arrow-1"></i></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- // Форма // -->
+
+<!-- Отзывы или команда -->
+            <section class="p-b80 bg-light p-t80">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="ot-heading">
+                                <h3 class="title-default m-b50">Отзывы и мнения о нас</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="ot-testimonials">
+                                <div class="slider__arrows"></div>
+                                <div class="testimonial-wrap">
+                                    <div class="testimonial-inner ot-testimonials-slider">
+                                        {% for review in reviews %}
+                                        <div>
+                                            <div class="ttext">
+                                                {{ review.text }}
+                                            </div>
+                                            <div class="tinfo">
+                                                <h6>{{ review.name }}</h6>
+                                                <span>{{ review.position }}</span>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="bg-block"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+<script type="text/javascript" src="{% static 'assets/js/ajax/theme_detail.js' %}"></script>
+
+
+{% endblock %}

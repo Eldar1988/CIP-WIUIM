@@ -1,0 +1,130 @@
+{% extends 'user/base_user.html' %}
+{% block title %}
+{{ company.name }} - {{ company.specialization }} | {{ block.super }}
+{% endblock %}
+
+{% block description %}
+{{ company.bio }}
+{% endblock %}
+
+{% block content %}
+<section class="p-tb90 particles-js" data-color="#fe4c1c,#00c3ff,#0160e7" data-id="a1">
+    <div class="container-fluid">
+        <div class="row flex-row">
+            <div class="col-md-4 col-xs-12 p-lr30 xs-p-lr15 align-self-center xs-m-b40">
+                <img src="{{ company.logo.url }}" alt="">
+            </div>
+            <div class="col-md-8 col-xs-12 p-l85 p-r70 xs-p-lr15 align-self-center">
+                <h6 class="steam-pos">{{ company.specialization }}</h6>
+                <h2 class="steam-name">{{ company.name }}</h2>
+                <blockquote>{{ company.slogan }}</blockquote>
+                <div class="steam-desc blue-shadow">{% autoescape off %} {{ company.bio }} {% endautoescape %}</div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 h-100">
+                        <div class="steam-desc h-100 blue-shadow">
+                            <ul class="comp_contacts h-100">
+                                <h6>Контакты:</h6>
+                                {% if company.address %}
+                                <li><i class="fas fa-map-marker-alt"></i> {{ company.address }}</li>
+                                {% endif %}
+                                {% if company.main_phone %}
+                                <li><a href="tel:{{ company.main_phone }}"><i class="fas fa-phone"></i>
+                                        {{ company.main_phone }}</a></li>
+                                {% endif %}
+                                {% if company.second_phone %}
+                                <li><a href="tel:{{ company.second_phone }}"><i class="fas fa-phone"></i>
+                                        {{ company.second_phone }}</a></li>
+                                {% endif %}
+                                {% if company.whatsapp_phone %}
+                                <li><a href="https://wa.me/{{ company.whatsapp_phone }}"><i class="fab fa-whatsapp"></i>
+                                        {{ company.whatsapp_phone }}</a></li>
+                                {% endif %}
+                                {% if company.mail %}
+                                <li><a href="mailto:{{ company.mail }}"><i class="far fa-envelope"></i>
+                                        {{ company.mail }}</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-6">
+                        <div class="steam-desc blue-shadow">
+                            <h6>Реквизиты:</h6>
+                            {% autoescape off %} {{ company.name_legal }} {% endautoescape %}
+                        </div>
+                    </div>
+                </div>
+                <div class="steam-social">
+                    <h6>Мы в социальных сетях: </h6>
+                    {% if company.vk %}
+                    <a href="{{ company.vk }}" class="facebook" target="_blank"><i class="fab fa-vk"></i></a>
+                    {% endif %}
+                    {% if company.fb %}
+                    <a href="{{ company.fb }}" class="facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    {% endif %}
+                    {% if company.instagram %}
+                    <a href="{{ company.instagram }}" class="instagram" target="_blank"><i
+                            class="fab fa-instagram"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="home2-team">
+    <div class="container">
+        <hr>
+        <div class="row p-b40">
+            <div>
+                <div class="ot-heading left-align col-md-12">
+                    <h6><span>Сотрудники компании</span></h6>
+                    <h2 class="main-heading">Наша команда</h2>
+
+                    <p>{{ company.about_cooperators }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-25">
+            <div class="col-md-12 col-xs-12">
+                <div class="team-slider">
+                    {% for cooperator in company.cooperator.all %}
+                    <div class="team-wrap">
+                        <div class="team-thumb">
+                            <a href="{{ cooperator.get_absolute_url }}" title="Подробнее" class="my-link">
+                                <img src="{{ cooperator.avatar.url }}" alt="{{ cooperator.profile.name }}" width="150px"
+                                    height="150px">
+                            </a>
+                        </div>
+                        <div class="team-info">
+                            <h4><a href="{{ cooperator.get_absolute_url }}" title="Подробнее"
+                                    class="my-link">{{ cooperator.name }}</a></h4>
+                            <span>{{ cooperator.professional }}<br>{{ cooperator.slogan }}</span>
+                            <div class="team-social">
+                                {% if cooperator.vk %}
+                                <a href="{{ cooperator.vk }}" class="facebook" target="_blank"><i
+                                        class="fab fa-vk"></i></a>
+                                {% endif %}
+                                {% if cooperator.fb %}
+                                <a href="{{ cooperator.fb }}" class="facebook" target="_blank"><i
+                                        class="fab fa-facebook-f"></i></a>
+                                {% endif %}
+                                {% if cooperator.instagram %}
+                                <a href="{{ cooperator.instagram }}" class="instagram" target="_blank"><i
+                                        class="fab fa-instagram"></i></a>
+                                {% endif %}
+                                <span class="flaticon-add-1"></span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row m-t100">
+            <div class="col-md-12">
+                {% include 'includes/share.html' %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

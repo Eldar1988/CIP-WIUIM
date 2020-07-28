@@ -1,0 +1,264 @@
+{% extends 'project/project_base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ structure.title }} | {{ block.super }}
+{% endblock %}
+
+
+
+{% block description %}
+    {{ structure.short_description_seo }}
+{% endblock %}
+
+
+{% block content %}
+
+<!-- Заголовок - крошки -->
+            <div class="page-header dtable text-center" style="background-image: url('{% static 'assets/images/bg-page-header.jpg' %}');">
+                <div class="dcell">
+                    <div class="container">
+                        <h1 class="page-title">{{ structure.title }}</h1>
+                        <ul id="breadcrumbs" class="breadcrumbs">
+                            <li><a href="/">Главная</a></li>
+                            <li><a href="/projects">Проекты</a></li>
+                            <li><a href="{{ project.get_absolute_url }}">{{ project.title_grey }}</a></li>
+                            <li class="active">{{ structure.title }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- // Заголовок - крошки // -->
+
+<!-- 1 Блок -->
+            <section class="p-t140">
+                <div class="container">
+                    <div class="row">
+                        <div class="align-self-center col-md-8">
+                            <div class="ot-heading left-align">
+                                <h2 class="main-heading">{{ structure.title }}</h2>
+                            </div>
+                            <div class="ot-tabs">
+                                <div id="tab-1454" class="tab-content current">
+                                    <p>{% autoescape off%} {{ project.short_description }} {% endautoescape %}</p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <!-- Картинка -->
+                        <aside class="widget-area primary-sidebar col-md-4">
+                            <img class="author-widget_image border-img" src="{{ structure.image.url }}" alt="{{ structure.title }}">
+                        </aside>
+                        <!-- // Картинка // -->
+                    </div>
+                </div>
+            </section>
+            <!-- // 1 Блок // -->
+
+<!-- Описание полное -->
+    <section class="">
+                <div class="container">
+                    <div class="row my-border blue-shadow">
+                        <div class="col-12">
+                            {% autoescape off%} {{ structure.description }} {% endautoescape %}
+                        </div>
+                    </div>
+                    <div class="row mt-25 my-border blue-shadow">
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <p class="mt-3">Поделиться в сети:
+                                <script src="https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+                                <script src="https://yastatic.net/share2/share.js"></script>
+                                <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,twitter,linkedin,viber,whatsapp,skype,telegram" data-limit="15"></div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+<!-- Вопросы и ответы -->
+            <section class="p-tb90">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12 sm-m-b40">
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="ot-heading">
+                                        <h3 class="title-default m-b50">Вопросы и ответы</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ot-accordions accordions-gradient">
+                                {% for question in project.questions.all %}
+                                <div class="acc-item ">
+                                    <span class="acc-toggle">{{ question.question }} <i class="down flaticon-arrow-pointing-to-down"></i><i class="up flaticon-arrow-pointing-to-up"></i></span>
+                                    <div class="acc-content ">
+                                        {{ question.answer }}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xs-12">
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="ot-heading">
+                                        <h3 class="title-default m-b50">Проект на форуме</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <article class="post-box">
+                                <div class="post-inner forum-hero">
+                                    <div class="content-area ">
+                                        <article class="post-box blog-post">
+                                            <div class="row">
+                                                {% for comment in project.forum_theme.comment_set.all|slice:':3' %}
+                                                    <div class="inner-post no-padding-top">
+
+                                                        <div class="entry-summary">
+                                                            {% autoescape off%} {{ comment.text }} {% endautoescape %}
+                                                            <span class="posted-on"><i class="flaticon-clock"></i> <time class="entry-date published">{{ comment.pub_date }}</time></span>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="ot-button">
+                                <a href="{{ project.forum_theme.get_absolute_url }}" class="octf-btn octf-btn-secondary octf-btn-icon btn-block"><span>Перейти к форуму <i class="flaticon-right-arrow-1"></i></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- // Вопросы и ответы // -->
+
+<!-- Форма -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 text-center">
+                        <div class="search-engine-form">
+                            <div class="bg-overlay"></div>
+                            <div class="bg-overlay-img2"></div>
+                            <div class="title">
+                                <h2>Заинтересовал проект?</h2>
+                                <p class="project-form-p">Заполните форму и мы свяжемся с вами в течении 5 минут
+
+</p>
+                            </div>
+                            <div role="form" class="wpcf7">
+                                <form action="{% url 'add_contact' %}" method="POST" class="wpcf7-form">
+                                    {% csrf_token %}
+                                        <script type="text/javascript">
+                                            let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                                        </script>
+                                    <div class="seo-score one-line-form">
+                                        <span class="wpcf7-form-control-wrap your-url">
+                                            <input type="text" id="name" name="name" class="wpcf7-form-control wpcf7-text wpcf7-url" placeholder="Ваше имя *">
+                                        </span>
+                                        <span id="error-name" class="error-text"></span>
+
+                                        <span class="wpcf7-form-control-wrap your-email">
+                                            <input type="number" id="phone" name="phone" class="wpcf7-form-control wpcf7-text" placeholder="Номер телефона *">
+                                        </span>
+                                        <span id="error-phone" class="error-text"></span>
+
+                                        <div id="contact-submit" class="octf-btn octf-btn-icon octf-btn-primary" onclick="AjaxAddContact()">Отправить<i class="flaticon-right-arrow-1"></i></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- // Форма // -->
+
+<!-- Команда проекта -->
+<section class="home2-team">
+                <div class="container">
+                    <div class="p-b40">
+                        <div>
+                            <div class="ot-heading left-align">
+                                <h2 class="main-heading">Наша команда</h2>
+                            </div>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="row mt-25">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="team-slider">
+                                {% for cooperator in project.company.cooperator.all %}
+                                <div class="team-wrap">
+                                    <div class="team-thumb">
+                                        <a href="{{ cooperator.get_absolute_url }}" title="Подробнее" class="my-link">
+                                            <img src="{{ cooperator.avatar.url }}" alt="{{ cooperator.profile.name }}" width="150px" height="150px">
+                                        </a>
+                                    </div>
+                                    <div class="team-info">
+                                        <h4><a href="{{ cooperator.get_absolute_url }}" title="Подробнее" class="my-link">{{ cooperator.name }}</a></h4>
+                                        <span>{{ cooperator.professional }}<br>{{ cooperator.slogan }}</span>
+                                        <div class="team-social">
+                                            {% if cooperator.vk %}
+                                                <a href="{{ cooperator.vk }}" class="facebook" target="_blank" ><i class="fab fa-vk"></i></a>
+                                            {% endif %}
+                                            {% if cooperator.fb %}
+                                                <a href="{{ cooperator.fb }}" class="facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                            {% endif %}
+                                            {% if cooperator.instagram %}
+                                                <a href="{{ cooperator.instagram }}" class="instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                                            {% endif %}
+                                            <span class="flaticon-add-1"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+<!-- ///// -->
+
+<!-- Отзывы или команда -->
+<section class="p-b90 bg-light pt-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="ot-heading">
+                                <h3 class="title-default m-b50">Отзывы и мнения о проекте {{ project.title_grey }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="ot-testimonials">
+                                <div class="slider__arrows"></div>
+                                <div class="testimonial-wrap">
+                                    <div class="testimonial-inner ot-testimonials-slider">
+                                        {% for review in project.reviews.all %}
+                                        <div>
+                                            <div class="ttext">
+                                                {{ review.text }}
+                                            </div>
+                                            <div class="tinfo">
+                                                <h6>{{ review.name }}</h6>
+                                                <span>{{ review.position }}</span>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="bg-block"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+<script type="text/javascript" src="{% static 'assets/js/ajax/theme_detail.js' %}"></script>
+
+
+{% endblock %}

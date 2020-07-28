@@ -1,0 +1,99 @@
+{% extends 'blog/base_blog.html' %}
+{% load static %}
+
+
+{% block title %}
+{% if bread == '0' %}
+Информационный блог | {{ block.super }}
+{% endif %}
+{% if bread == '1' %}
+{{ category.title }} | {{ block.super }}
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Заголовок -->
+<div class="page-header dtable text-center"
+    style="background-image: url({% static 'assets/images/bg-page-header.jpg' %});">
+    <div class="dcell">
+        <div class="container">
+            <h1 class="page-title">Информационный блог</h1>
+            <ul id="breadcrumbs" class="breadcrumbs">
+                <li><a href="/">Главная</a></li>
+                {% if bread == '0' %}
+                <li class="active">Блог</li>
+                {% endif %}
+
+                {% if bread == '1' %}
+                <li><a href="{% url 'post_list' 'all' %}">Блог</a></li>
+                <li class="active">{{ category.title }}</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- // Заголовок // -->
+<!-- Посты  -->
+<div class="p-t90 p-b90 blog-grid-content">
+    <div class="container">
+        <div class="row">
+            {% for post in page %}
+            <!-- Один пост -->
+            <article class="col-md-4 col-sm-6 col-xs-12 post-box masonry-post-item">
+                <div class="post-inner">
+                    <div class="entry-media">
+                        <div class="post-cat">
+                            <span class="posted-in">
+                                <a href="{{ post.category.get_absolute_url }}"
+                                    rel="category tag">{{ post.category }}</a>
+                            </span>
+                        </div>
+                        <a href="{{ post.get_absolute_url }}" class="transition">
+                            <img src="{{ post.miniature.url }}" alt="{{ post.title }}" height="200px" width="100%">
+                        </a>
+                    </div>
+                    <div class="inner-post">
+                        <div class="entry-header">
+
+                            <div class="entry-meta">
+                                <span class="byline"><a class="У;" href="{{ post.author.profile.get_absolute_url }}"
+                                        title="Подробнее об авторе"><i class="flaticon-user"></i>
+                                        {{ post.author.profile.name }}</a></span>
+                                <span class="posted-on">
+                                    <i class="flaticon-clock"></i> <time
+                                        class="entry-date published">{{ post.pub_date }}</time>
+                                </span>
+                                <span class="post-rating"
+                                    style="color: #fec80c; margin-top: 25px; font-size: 18px;"></span>
+                            </div><!-- .entry-meta -->
+
+                            <h3 class="entry-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+                        </div><!-- .entry-header -->
+
+                        <div class="entry-summary the-excerpt">
+                            <p>{{ post.preview }}</p>
+                        </div><!-- .entry-content -->
+                    </div>
+                </div>
+            </article>
+            <!-- // Один пост // -->
+            {% endfor %}
+
+        </div>
+        {% include 'includes/paginate.html' %}
+    </div>
+</div>
+<!-- // Посты // -->
+<script>
+    window.onLoad = addRating('{{ rating }}');
+    function addRating(rating) {
+        let all_stars = 7;
+        let clean_stars = all_stars - rating;
+        let stars_2 = "<i class=\"far fa-star\"></i>";
+        let stars = "<i class=\"fas fa-star\"></i>";
+        stars = stars.repeat(rating) + stars_2.repeat(clean_stars);
+        document.getElementsByClassName('.post-rating').innerHTML = `${stars}`;
+    }
+</script>
+
+{% endblock %}

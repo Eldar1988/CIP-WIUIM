@@ -1,0 +1,91 @@
+{% extends 'home/base_home.html' %}
+{% load static %}
+
+{% block title %}
+    {{ rules.title }} | {{ block.super }}
+{% endblock %}
+
+{% block description %}
+    На данной странице описаны правила пользования сайтом
+{% endblock %}
+
+{% block content %}
+<!-- Заголовок - крошки -->
+<div class="page-header dtable text-center" style="background-image: url('{% static 'assets/images/bg-page-header.jpg' %}');">
+                <div class="dcell">
+                    <div class="container">
+                        <h1 class="page-title">{{ rules.title }}</h1>
+                        <ul id="breadcrumbs" class="breadcrumbs">
+                            <li><a href="/">Главная</a></li>
+                            <li><a href="{% url 'rules_all' %}">Правила пользования сайтом</a></li>
+                            <li class="active">{{ rules.title }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+<!-- // Заголовок - крошки // -->
+
+<!-- 1 Блок -->
+<section class="p-t100">
+                <div class="container">
+                    <div class="row">
+                        <div class="align-self-center col-md-12">
+                            <div class="ot-heading left-align">
+                                <h2 class="main-heading">{{ rules.title }}</h2>
+                            </div>
+                            <div class="ot-tabs">
+                                <div id="tab-1454" class="tab-content current">
+                                    <p>{% autoescape off%} {{ rules.description }} {% endautoescape %}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% include 'includes/share.html' %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+<!-- // 1 Блок // -->
+
+<!-- Форма -->
+<div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 text-center">
+                        <div class="search-engine-form">
+                            <div class="bg-overlay"></div>
+                            <div class="bg-overlay-img2"></div>
+                            <div class="title">
+                                <h2>Остались вопросы?</h2>
+                                <p class="project-form-p">Заполните форму и мы свяжемся с вами в течении 5 минут</p>
+                            </div>
+                            <div role="form" class="wpcf7">
+                                <form action="{% url 'add_contact' %}" method="POST" class="wpcf7-form">
+                                    {% csrf_token %}
+                                        <script type="text/javascript">
+                                            let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                                        </script>
+                                    <div class="seo-score one-line-form">
+                                        <span class="wpcf7-form-control-wrap your-url">
+                                            <input type="text" id="name" name="name" class="wpcf7-form-control wpcf7-text wpcf7-url" placeholder="Ваше имя *">
+                                        </span>
+                                        <span id="error-name" class="error-text"></span>
+
+                                        <span class="wpcf7-form-control-wrap your-email">
+                                            <input type="number" id="phone" name="phone" class="wpcf7-form-control wpcf7-text" placeholder="Номер телефона *">
+                                        </span>
+                                        <span id="error-phone" class="error-text"></span>
+
+                                        <div id="contact-submit" class="octf-btn octf-btn-icon octf-btn-primary" onclick="AjaxAddContact()">Отправить<i class="flaticon-right-arrow-1"></i></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!-- // Форма // -->
+
+{% endblock %}
