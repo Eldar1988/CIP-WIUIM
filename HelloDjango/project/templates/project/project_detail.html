@@ -51,6 +51,9 @@
                                     <p>{% autoescape off%} {{ project.description_second }} {% endautoescape %}</p>
                                 </div>
                             </div>
+
+                            {% if project.presentation %}
+
                             <article class="post-box">
                                 <div class="post-inner forum-hero">
                                     <div class="content-area ">
@@ -66,6 +69,9 @@
                                     </div>
                                 </div>
                             </article>
+
+                            {% endif %}
+
                         </div>
 
 
